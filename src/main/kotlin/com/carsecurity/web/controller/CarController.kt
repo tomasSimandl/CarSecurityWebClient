@@ -4,9 +4,7 @@ import com.carsecurity.web.rest.service.CarService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -32,5 +30,21 @@ class CarController(private val carService: CarService) {
             @RequestParam(value = "icon") carIcon: String
     ) {
         response.writer.print(carService.createCar(carName, carIcon))
+    }
+
+    @PutMapping("car")
+    fun updateCar(
+            @RequestParam(value = "id") carId: Long,
+            @RequestParam(value = "name") carName: String,
+            @RequestParam(value = "icon") carIcon: String
+    ) {
+        carService.updateCar(carId, carName, carIcon)
+    }
+
+    @DeleteMapping("car")
+    fun deleteCar(
+            @RequestParam(value = "car_id") carId: Long
+    ) {
+        carService.removeCar(carId)
     }
 }

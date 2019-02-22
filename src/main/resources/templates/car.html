@@ -44,6 +44,7 @@
                         data-target="#carModal"
                         th:data-name="${car.name}"
                         th:data-icon="${car.icon}"
+                        th:data-car-id="${car.id}"
                         data-title="Car edit"
                         data-show-delete="true">
                 </button>
@@ -87,6 +88,7 @@
             <div class="modal-body">
                 <form id="car-modal-form" action="/car">
                     <!--<input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}">-->
+                    <input name="id" type="hidden" id="car-id">
                     <div class="form-group">
                         <label for="car-name" class="col-form-label">Name:</label>
                         <input name="name" type="text" class="form-control" id="car-name">
@@ -99,7 +101,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button id="btn-delete" type="button" class="btn btn-danger">Delete Car</button>
+                <button id="btn-delete" type="button" class="btn btn-danger" onclick="deleteCar()">Delete Car</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Save changes</button>
             </div>
         </div>
@@ -109,28 +111,55 @@
 <script>
     $('#carModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var name = button.data('name');
-        var icon = button.data('icon');
-        var title = button.data('title');
-        var showDelete = button.data('show-delete');
 
         var modal = $(this);
-        modal.find('#car-icon').val(icon);
-        modal.find('#car-name').val(name);
-        modal.find('#car-modal-label').text(title);
-        if(showDelete === false) {
-            modal.find('#btn-delete').hide()
+        modal.find('#car-icon').val(button.data('icon'));
+        modal.find('#car-name').val(button.data('name'));
+        modal.find('#car-modal-label').text(button.data('title'));
+        if (button.data('show-delete') === false) {
+            modal.find('#btn-delete').hide();
+            $('#car-id').val("");
         } else {
-            modal.find('#btn-delete').show()
+            var btnDelete = modal.find('#btn-delete');
+            btnDelete.show();
+            btnDelete.data('car-id', button.data('car-id'));
+            $('#car-id').val(button.data('car-id'));
         }
     });
 
-    function submitForm(){
+    function deleteCar() {
+        var url = $('#car-modal-form').attr("action");
+        var carId = $('#btn-delete').data('car-id');
+        var data = {car_id: carId };
+
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            data: data
+        })
+            .done(function () {
+                location.reload();
+            })
+            .fail(function (data) {
+                $('#carModal').modal('hide');
+                $('#toast-body').text(data.responseJSON.error);
+                $('.toast').toast('show');
+            })
+        ;
+    }
+
+    function submitForm() {
         var form = $('#car-modal-form');
         var url = form.attr("action");
         var formData = form.serializeArray();
 
-        $.post(url, formData)
+        var method = ($('#car-id').val() === '' ) ? 'POST' : 'PUT'
+
+        $.ajax({
+            url: url,
+            type: method,
+            data: formData
+        })
             .done(function () {
                 location.reload();
             })

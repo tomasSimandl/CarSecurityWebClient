@@ -48,4 +48,24 @@ class CarServiceImpl(
         val entity = restTemplate.postForEntity(url, httpEntity, String::class.java)
         return entity.body!!
     }
+
+    override fun updateCar(id: Long, name: String, icon: String) {
+        val url = "$restServerUrl$CAR_MAPPING"
+
+        val form = HashMap<String, String>()
+        form["name"] = name
+        form["icon"] = icon
+        form["id"] = id.toString()
+
+        val httpEntity = HttpEntity(form)
+
+
+        restTemplate.put(url, httpEntity)
+    }
+
+    override fun removeCar(carId: Long) {
+        val url = "$restServerUrl$CAR_MAPPING?car_id=$carId"
+
+        restTemplate.delete(url)
+    }
 }
