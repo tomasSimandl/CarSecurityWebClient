@@ -33,4 +33,11 @@ class RouteServiceImpl(
         val routeEntity = restTemplate.getForEntity(url, Route::class.java)
         return routeEntity.body!!
     }
+
+    override fun getRoutes(): Array<Route> {
+        val url = "$restServerUrl$ROUTE_MAPPING"
+
+        val routeEntity = restTemplate.getForEntity(url, Array<Route>::class.java)
+        return routeEntity.body!!
+    }
 }
