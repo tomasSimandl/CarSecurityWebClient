@@ -28,6 +28,8 @@ class SecurityConfig(
                 .and()
                 .formLogin()
                 .defaultSuccessUrl("/test") // TODO
+                .and()
+                .csrf().disable()
 
     }
 }
