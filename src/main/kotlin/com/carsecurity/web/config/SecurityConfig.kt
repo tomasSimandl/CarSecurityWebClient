@@ -27,6 +27,7 @@ class SecurityConfig(
                 .authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/test")
+                .defaultSuccessUrl("/test") // TODO
+
     }
 }

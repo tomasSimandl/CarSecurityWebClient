@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/general.html :: head(title='Error')"> </head>
+
+<body>
+    <nav th:insert="fragments/general.html :: navigation"></nav>
+
+    <div class="container alert alert-danger" role="alert">
+        Error: <span th:text="${error}"></span>
+    </div>
+</body>
+</html>

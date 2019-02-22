@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: head(title='Route')"> </head>
+
+<body>
+
+    <nav th:insert="fragments/general.html :: navigation"></nav>
+
+    <div class="container">
+
+        <table class="table">
+            <tbody>
+                <tr><td>ID</td><td th:text="${route.id}"></td></tr>
+                <tr><td>Car ID</td><td th:text="${route.carId}"></td></tr>
+                <tr><td>Length</td><td th:text="${route.length}"></td></tr>
+                <tr><td>Note</td><td th:text="${route.note}"></td></tr>
+                <tr><td>Start position ID</td><td th:text="${route.startPositionId}"></td></tr>
+                <tr><td>End position ID</td><td th:text="${route.endPositionId}"></td></tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

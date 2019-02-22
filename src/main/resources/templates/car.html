@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: head(title='Route')"></head>
+
+<body>
+
+<div th:insert="fragments/general.html :: navigation"></div>
+
+<div class="container">
+    <div class="card-columns">
+        <div class="card border-dark shadow">
+            <button
+                    type="button"
+                    title="Add car"
+                    class="btn oi oi-plus my-2 w-100"
+                    data-toggle="modal"
+                    data-target="#carModal"
+                    data-title="Create car"
+                    data-show-delete="false">
+            </button>
+        </div>
+        <div th:each="car, iStat : ${cars}" class="card border-dark shadow">
+            <div class="card-header bg-complementary d-flex">
+                <h5 class="text-dark w-80" th:text="${car.name}"></h5>
+                <button type="button"
+                        title="Edit car"
+                        class="oi oi-pencil w-20 btn-bg-transparent"
+                        data-toggle="modal"
+                        data-target="#carModal"
+                        th:data-name="${car.name}"
+                        th:data-icon="${car.icon}"
+                        data-title="Car edit"
+                        data-show-delete="true">
+                </button>
+            </div>
+            <div class="m-2">
+                <table class="table table-sm m-0">
+                    <tbody>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <td th:text="${car.id}" align="center"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col"># of routes</th>
+                        <td th:text="${car.routes}" align="center"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col"># of events</th>
+                        <td th:text="${car.events}" align="center"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Icon</th>
+                        <td th:text="${car.icon}" align="center"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="car-modal-label">Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="car-modal-form" action="/car">
+                    <input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}">
+                    <div class="form-group">
+                        <label for="car-name" class="col-form-label">Name:</label>
+                        <input name="name" type="text" class="form-control" id="car-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="car-icon" class="col-form-label">Icon:</label>
+                        <input name="icon" class="form-control" id="car-icon">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="btn-delete" type="button" class="btn btn-danger">Delete Car</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#carModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var name = button.data('name');
+        var icon = button.data('icon');
+        var title = button.data('title');
+        var showDelete = button.data('show-delete');
+
+        var modal = $(this);
+        modal.find('#car-icon').val(icon);
+        modal.find('#car-name').val(name);
+        modal.find('#car-modal-label').text(title);
+        if(showDelete === false) {
+            modal.find('#btn-delete').hide()
+        } else {
+            modal.find('#btn-delete').show()
+        }
+    });
+
+    function submitForm(){
+        var form = $('#car-modal-form');
+        var url = form.attr("action");
+        var formData = form.serializeArray();
+        console.debug(formData)
+        $.post(url, formData).done(function (data) {
+            alert(data);
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.carsecurity.web.rest.service
 
 import com.carsecurity.web.rest.model.Token
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -28,6 +29,8 @@ class UserServiceImpl(
         private val restTemplate: RestTemplate
 ) : UserService {
 
+    private val logger = LoggerFactory.getLogger(UserServiceImpl::class.java)
+
     private val oauthGrantType = "password"
 
     override fun login(username: String, password: String): Token {
@@ -43,11 +46,7 @@ class UserServiceImpl(
 
         val httpEntity = HttpEntity(form, header)
 
-        println("HEADERS")
-        println(httpEntity.headers)
-        println("BODY")
-        println(httpEntity.body)
-
+        logger.debug("Sending login request to authorization server.")
 
         val tokenEntity = restTemplate.postForEntity(authorizationServerUrl + TOKEN_MAPPING, httpEntity, Token::class.java)
         return tokenEntity.body!!
@@ -63,11 +62,7 @@ class UserServiceImpl(
         form["grant_type"] = "refresh_token"
 
         val httpEntity = HttpEntity(form, header)
-        println("HEADERS")
-        println(httpEntity.headers)
-        println("BODY")
-        println(httpEntity.body)
-
+        logger.debug("Sending refresh token request to authorization server.")
 
         val tokenEntity = restTemplate.postForEntity(authorizationServerUrl + TOKEN_MAPPING, httpEntity, Token::class.java)
         return tokenEntity.body!!

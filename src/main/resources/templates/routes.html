@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: head(title='Route')"></head>
+
+<body>
+
+<div th:insert="fragments/general.html :: navigation"></div>
+
+<div class="container">
+    <div class="card-columns">
+        <div th:each="route, iStat : ${routes}" class="card border-dark shadow">
+            <h5 class="card-header bg-complementary">
+                <a class="text-dark" th:href="@{/route/{id}(id=${route.id})}">
+                    Route #<span th:text="${route.id}"></span>
+                </a>
+            </h5>
+            <div class="m-2">
+                <table class="table table-sm m-0">
+                    <tbody>
+                    <tr>
+                        <th scope="col">car ID</th>
+                        <td th:text="${route.carId}" align="center"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Length</th>
+                        <td th:text="${route.length}" align="center"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Start position ID</th>
+                        <td th:text="${route.startPositionId}" align="center"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">End position ID</th>
+                        <td th:text="${route.endPositionId}" align="center"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Note</th>
+                        <td th:text="${route.note}" align="center"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

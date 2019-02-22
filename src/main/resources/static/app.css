@@ -1,0 +1,24 @@
+.bg-main {
+    background-color: #001970 !important;
+}
+
+.bg-complementary {
+    background-color: #ffb300 !important;
+}
+
+.btn-bg-transparent {
+    background: transparent;
+    border: transparent;
+}
+
+.w-80 {
+    width: 80%;
+}
+
+.w-20 {
+    width: 20%;
+}
+
+body {
+    background-color: #eeeeee;
+}
