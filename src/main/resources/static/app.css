@@ -11,6 +11,10 @@
     border: transparent;
 }
 
+.card td {
+    word-break: break-all;
+}
+
 .w-80 {
     width: 80%;
 }

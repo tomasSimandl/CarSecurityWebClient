@@ -86,7 +86,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="car-modal-form" action="/car">
+                <form id="car-modal-form">
                     <!--<input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}">-->
                     <input name="id" type="hidden" id="car-id">
                     <div class="form-group">
@@ -101,8 +101,30 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button id="btn-delete" type="button" class="btn btn-danger" onclick="deleteCar()">Delete Car</button>
-                <button type="button" class="btn btn-primary" onclick="submitForm()">Save changes</button>
+                <button id="btn-delete" type="button" class="btn btn-danger" data-dismiss="modal"
+                        data-toggle="modal" data-target="#delete-car-modal">Delete Car</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        onclick="submitFormCar()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-car-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete car</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this car and every routes and events with it.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteCar()">Delete</button>
             </div>
         </div>
     </div>
@@ -116,6 +138,7 @@
         modal.find('#car-icon').val(button.data('icon'));
         modal.find('#car-name').val(button.data('name'));
         modal.find('#car-modal-label').text(button.data('title'));
+
         if (button.data('show-delete') === false) {
             modal.find('#btn-delete').hide();
             $('#car-id').val("");
@@ -128,43 +151,31 @@
     });
 
     function deleteCar() {
-        var url = $('#car-modal-form').attr("action");
+        var url = '/car';
         var carId = $('#btn-delete').data('car-id');
         var data = {car_id: carId };
 
+        sendAjaxCar(url, 'DELETE', data);
+    }
+
+    function submitFormCar() {
+        var url = '/car';
+        var formData = $('#car-modal-form').serializeArray();
+        var method = ($('#car-id').val() === '' ) ? 'POST' : 'PUT'
+
+        sendAjaxCar(url, method, formData)
+    }
+
+    function sendAjaxCar(url, method, data){
         $.ajax({
             url: url,
-            type: 'DELETE',
+            type: method,
             data: data
         })
             .done(function () {
                 location.reload();
             })
             .fail(function (data) {
-                $('#carModal').modal('hide');
-                $('#toast-body').text(data.responseJSON.error);
-                $('.toast').toast('show');
-            })
-        ;
-    }
-
-    function submitForm() {
-        var form = $('#car-modal-form');
-        var url = form.attr("action");
-        var formData = form.serializeArray();
-
-        var method = ($('#car-id').val() === '' ) ? 'POST' : 'PUT'
-
-        $.ajax({
-            url: url,
-            type: method,
-            data: formData
-        })
-            .done(function () {
-                location.reload();
-            })
-            .fail(function (data) {
-                $('#carModal').modal('hide');
                 $('#toast-body').text(data.responseJSON.error);
                 $('.toast').toast('show');
             })
