@@ -1,7 +1,6 @@
 package com.carsecurity.web.rest.service
 
 import com.carsecurity.web.rest.model.Car
-import com.carsecurity.web.rest.model.Route
 
 
 interface CarService {

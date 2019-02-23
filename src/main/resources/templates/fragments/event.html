@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<!-- CARD with event -->
+<div th:fragment="events" th:each="event, iStat : ${events}"
+     class="card border-dark shadow mb-3 col-sm-12 col-md-5 p-0">
+    <div class="card-header bg-complementary d-flex">
+        <h5 class="text-dark w-80" th:text="${event.eventTypeName}"></h5>
+        <button type="button"
+                title="Edit event"
+                class="oi oi-pencil w-20 btn-bg-transparent"
+                data-toggle="modal"
+                data-target="#eventModal"
+                th:data-event-id="${event.id}"
+                th:data-note="${event.note}">
+        </button>
+    </div>
+    <div class="m-2">
+        <table class="table table-sm m-0">
+            <tbody>
+            <tr>
+                <th scope="col">ID</th>
+                <td th:text="${event.id}"></td>
+            </tr>
+            <tr>
+                <th scope="col">Car</th>
+                <td th:text="${event.carName}"></td>
+            </tr>
+            <tr>
+                <th scope="col">Date</th>
+                <td th:text="${#dates.format(event.time*1000, 'dd.MM.yyyy')}"></td>
+            </tr>
+            <tr>
+                <th scope="col">Time</th>
+                <td th:text="${#dates.format(event.time*1000, 'HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+                <th scope="col">Note</th>
+                <td th:text="${event.note}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

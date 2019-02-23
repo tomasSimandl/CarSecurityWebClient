@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: head(title='Events')"></head>
+
+<body>
+
+<div th:insert="fragments/general.html :: navigation"></div>
+
+<div class="container">
+
+    <!-- TOAST error message -->
+    <div class="toast fade hide mw-100" role="alert" aria-live="assertive" aria-atomic="true" data-delay="20000">
+        <div class="toast-header bg-danger text-light">
+            <span class="rounded mr-2 oi oi-warning"></span>
+            <strong class="mr-auto">Error</strong>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div id="toast-body" class="toast-body"></div>
+    </div>
+
+    <!-- CARDS with events -->
+    <div id="cards-container" class="row justify-content-around px-3" th:insert="fragments/event.html :: events"></div>
+
+    <div class="row justify-content-center mb-3">
+        <button id="btn-load-next" type="button" title="load next data" class="btn btn-lg bg-main text-light"
+                data-page="0" onclick="loadData()">Load next</button>
+    </div>
+</div>
+
+<!-- Update modal container -->
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="event-modal-form">
+                    <!--<input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}">-->
+                    <input name="id" type="hidden" id="event-id">
+                    <div class="form-group">
+                        <label for="event-note" class="col-form-label">Note:</label>
+                        <input name="note" type="text" class="form-control" id="event-note">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="btn-delete" type="button" class="btn btn-danger" data-dismiss="modal"
+                        data-toggle="modal" data-target="#delete-event-modal">Delete Event</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        onclick="submitFormEvent()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete modal container -->
+<div id="delete-event-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this event?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteEvent()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#eventModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var eventId = button.data('event-id');
+
+        var modal = $(this);
+        modal.find('#event-note').val(button.data('note'));
+        modal.find('#event-id').val(eventId);
+        modal.find('#btn-delete').data('event-id', eventId);
+    });
+
+    function deleteEvent() {
+        var url = '/event';
+        var eventId = $('#btn-delete').data('event-id');
+        var data = {event_id: eventId };
+
+        sendAjaxCar(url, 'DELETE', data);
+    }
+
+    function submitFormEvent() {
+        var url = '/event';
+        var formData = $('#event-modal-form').serializeArray();
+
+        sendAjaxCar(url, 'PUT', formData)
+    }
+
+    function sendAjaxCar(url, method, data){
+        $.ajax({
+            url: url,
+            type: method,
+            data: data
+        })
+            .done(function () {
+                location.reload();
+            })
+            .fail(function (data) {
+                $('#toast-body').text(data.responseJSON.error);
+                $('.toast').toast('show');
+            })
+        ;
+    }
+
+    function loadData() {
+        var button = $('#btn-load-next');
+        var page = button.data('page') + 1;
+        var url = '/event?page=' + page;
+
+        $.get(url)
+            .done(function (data) {
+                if(data === ''){
+                    button.hide()
+                } else {
+                    $('#cards-container').append(data);
+                    button.data('page', page)
+                }
+            })
+            .fail(function (data) {
+                $('#toast-body').text(data.responseJSON.error);
+                $('.toast').toast('show');
+            })
+    }
+</script>
+
+</body>
+</html>
