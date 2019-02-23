@@ -10,11 +10,9 @@
 <div class="container">
     <div class="card-columns">
         <div th:each="route, iStat : ${routes}" class="card border-dark shadow">
-            <h5 class="card-header bg-complementary">
-                <a class="text-dark" th:href="@{/route/{id}(id=${route.id})}">
-                    Route #<span th:text="${route.id}"></span>
-                </a>
-            </h5>
+            <div class="bg-complementary">
+                <img th:src="@{/route/map(route_id=${route.id})}" class="card-img-top" th:alt="|Route #${route.id}|">
+            </div>
             <div class="m-2">
                 <table class="table table-sm m-0">
                     <tbody>

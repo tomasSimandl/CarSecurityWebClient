@@ -4,8 +4,8 @@ import com.carsecurity.web.rest.service.RouteService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.*
+import javax.websocket.server.PathParam
 
 @Controller
 class RouteController(private val routeService: RouteService) {
@@ -28,5 +28,13 @@ class RouteController(private val routeService: RouteService) {
 
         model.addAttribute("routes", routes)
         return "routes"
+    }
+
+    @ResponseBody
+    @GetMapping(value = ["route/map"], params = ["route_id"], produces = ["image/png"])
+    fun getMap(
+            @RequestParam("route_id") routeId: Long
+    ): ByteArray {
+        return routeService.getRouteMap(routeId)
     }
 }

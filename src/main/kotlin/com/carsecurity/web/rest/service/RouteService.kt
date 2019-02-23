@@ -7,4 +7,5 @@ interface RouteService {
 
     fun getRoute(routeId: Long): Route
     fun getRoutes(): Array<Route>
+    fun getRouteMap(routeId: Long): ByteArray
 }

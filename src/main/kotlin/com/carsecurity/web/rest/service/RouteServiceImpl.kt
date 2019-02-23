@@ -40,4 +40,17 @@ class RouteServiceImpl(
         val routeEntity = restTemplate.getForEntity(url, Array<Route>::class.java)
         return routeEntity.body!!
     }
+
+    override fun getRouteMap(routeId: Long): ByteArray {
+        val url = "$restServerUrl$ROUTE_MAPPING/map?route_id=$routeId"
+
+        val headers = HttpHeaders()
+        headers.accept = listOf(MediaType.APPLICATION_OCTET_STREAM)
+
+        val httpEntity = HttpEntity<String>(headers)
+
+        val entity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, ByteArray::class.java)
+//        val entity = restTemplate.getForEntity(url, ByteArray::class.java)
+        return entity.body ?: ByteArray(0)
+    }
 }
