@@ -1,14 +1,22 @@
 package com.carsecurity.web.controller
 
+import com.carsecurity.web.rest.service.PositionService
 import com.carsecurity.web.rest.service.RouteService
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import javax.websocket.server.PathParam
 
 @Controller
-class RouteController(private val routeService: RouteService) {
+class RouteController(
+        private val routeService: RouteService,
+        private val positionService: PositionService,
+
+        @Value("\${bing.map.key}")
+        private val bingMapKey: String
+) {
 
     private val logger = LoggerFactory.getLogger(RouteController::class.java)
 
@@ -16,8 +24,11 @@ class RouteController(private val routeService: RouteService) {
     fun getRouteById(@PathVariable("id") id: Long, model: Model): String {
 
         val route = routeService.getRoute(id)
+        val positions = positionService.getPositions(id)
 
         model.addAttribute("route", route)
+        model.addAttribute("positions", positions)
+        model.addAttribute("bingKey", bingMapKey)
         return "route"
     }
 

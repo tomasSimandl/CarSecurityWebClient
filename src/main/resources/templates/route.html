@@ -3,11 +3,61 @@
 
 <head th:insert="fragments/general.html :: head(title='Route')"> </head>
 
+
+</head>
+
+
+<script  th:inline="javascript">
+    function GetMap() {
+        /*<![CDATA[*/
+        var positions = [[${positions}]];
+
+        var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+            /* No need to set credentials if already passed in URL */
+            center: new Microsoft.Maps.Location(positions[0].latitude, positions[0].longitude),
+            zoom: 16,
+            mapTypeId: Microsoft.Maps.MapTypeId.road
+        });
+        var array = [];
+        var i;
+        for (i = 0; i < positions.length; i++) {
+            array.push(new Microsoft.Maps.Location(positions[i].latitude, positions[i].longitude));
+        }
+
+
+        var polyline = new Microsoft.Maps.Polyline(positions, {strokeColor: 'Blue', strokeThickness: 2});
+        map.entities.push(polyline);
+
+
+        var pinStart = new Microsoft.Maps.Pushpin(array[0], {
+            title: 'Start',
+            color: 'green',
+            text: 'S'
+        });
+        var pinEnd = new Microsoft.Maps.Pushpin(array[array.length-1], {
+            title: 'End',
+            color: 'red',
+            text: 'E'
+        });
+        map.entities.push(pinStart);
+        map.entities.push(pinEnd);
+
+
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.WellKnownText', function () {
+            document.getElementById('printoutPanel').innerHTML = Microsoft.Maps.WellKnownText.write(polyline);
+        });
+        /*]]>*/
+    }
+
+</script>
 <body>
 
     <nav th:insert="fragments/general.html :: navigation"></nav>
 
     <div class="container">
+
+        <div onload="GetMap()" id='myMap' class="w-100" style='height: 80vh;'></div>
 
         <table class="table">
             <tbody>
@@ -20,5 +70,13 @@
             </tbody>
         </table>
     </div>
+
+
+    <!-- Reference to the Bing Maps SDK -->
+    <script type='text/javascript'
+            th:src="@{https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key={key}(key=${bingKey})}"
+            async defer></script>
+
 </body>
+
 </html>
