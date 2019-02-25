@@ -52,6 +52,17 @@
             </div>
         </div>
     </div>
+
+    <!-- PAGINATION -->
+    <nav th:if="${numberOfPages gt 1}" aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li th:each="i: ${#numbers.sequence(1,numberOfPages)}" th:class="${i==actualPage} ? 'active page-item' : 'page-item'">
+                <span th:if="${i == actualPage}" class="page-link" th:content="|${i} <span class='sr-only'>(current)</span>|" th:text="${i}"></span>
+                <a th:unless="${i == actualPage}" class="page-link" th:href="@{/route?page={pg}(pg=${i})}" th:text="${i}"></a>
+            </li>
+        </ul>
+    </nav>
+
 </div>
 </body>
 </html>

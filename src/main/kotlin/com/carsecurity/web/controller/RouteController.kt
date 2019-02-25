@@ -8,11 +8,15 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import javax.websocket.server.PathParam
+import kotlin.math.ceil
 
 @Controller
 class RouteController(
         private val routeService: RouteService,
         private val positionService: PositionService,
+
+        @Value("\${web.data.load.page.limit}")
+        private val pageLimit: Int,
 
         @Value("\${bing.map.key}")
         private val bingMapKey: String
@@ -33,11 +37,18 @@ class RouteController(
     }
 
     @GetMapping("route")
-    fun getRoutes(model: Model): String {
+    fun getRoutes(
+            model: Model,
+            @RequestParam("page", defaultValue = "1", required = false) page: Int
+    ): String {
 
-        val routes = routeService.getRoutes()
+        val validPage = if(page > 0) page - 1 else 0
+        val routes = routeService.getRoutes(validPage)
+        val numberOfRoutes = routeService.countRoutes()
 
         model.addAttribute("routes", routes)
+        model.addAttribute("numberOfPages", ceil(numberOfRoutes/pageLimit.toFloat()))
+        model.addAttribute("actualPage", validPage + 1)
         return "routes"
     }
 

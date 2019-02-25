@@ -5,8 +5,8 @@
 <!-- CARD with event -->
 <div th:fragment="events" th:each="event, iStat : ${events}"
      class="card border-dark shadow mb-3 col-sm-12 col-md-5 p-0">
-    <div class="card-header bg-complementary d-flex">
-        <h5 class="text-dark w-80" th:text="${event.eventTypeName}"></h5>
+    <div class="card-header bg-complementary py-1 pr-1 d-flex">
+        <h5 class="text-dark w-80 m-auto" th:text="${event.eventTypeName}"></h5>
         <button type="button"
                 title="Edit event"
                 class="oi oi-pencil w-20 btn-bg-transparent"
@@ -19,10 +19,6 @@
     <div class="m-2">
         <table class="table table-sm m-0">
             <tbody>
-            <tr>
-                <th scope="col">ID</th>
-                <td th:text="${event.id}"></td>
-            </tr>
             <tr>
                 <th scope="col">Car</th>
                 <td th:text="${event.carName}"></td>

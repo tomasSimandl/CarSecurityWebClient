@@ -1,5 +1,6 @@
 package com.carsecurity.web.rest.service
 
+import com.carsecurity.web.rest.model.Count
 import com.carsecurity.web.rest.model.Route
 import com.carsecurity.web.rest.model.Token
 import org.springframework.beans.factory.annotation.Qualifier
@@ -22,6 +23,9 @@ class RouteServiceImpl(
         @Value("\${rest.server.url}")
         private val restServerUrl: String,
 
+        @Value("\${web.data.load.page.limit}")
+        private val pageLimit: Int,
+
         @Qualifier("tokenRestTemplate")
         private val restTemplate: RestTemplate
 ) : RouteService {
@@ -34,8 +38,8 @@ class RouteServiceImpl(
         return routeEntity.body!!
     }
 
-    override fun getRoutes(): Array<Route> {
-        val url = "$restServerUrl$ROUTE_MAPPING"
+    override fun getRoutes(page: Int): Array<Route> {
+        val url = "$restServerUrl$ROUTE_MAPPING?page=$page&limit=$pageLimit"
 
         val routeEntity = restTemplate.getForEntity(url, Array<Route>::class.java)
         return routeEntity.body!!
@@ -53,4 +57,12 @@ class RouteServiceImpl(
 //        val entity = restTemplate.getForEntity(url, ByteArray::class.java)
         return entity.body ?: ByteArray(0)
     }
+
+    override fun countRoutes(): Long {
+        val url = "$restServerUrl$ROUTE_COUNT_MAPPING"
+
+        val routeEntity = restTemplate.getForEntity(url, Count::class.java)
+        return routeEntity.body!!.count
+    }
+
 }
