@@ -6,15 +6,22 @@ data class Route(
 
         val id: Long,
 
-        @JsonProperty("start_position_id")
-        val startPositionId: Long,
-
-        @JsonProperty("end_position_id")
-        val endPositionId: Long,
-
         val length: Float,
+
+        @JsonProperty("avg_speed")
+        val avgSpeed: Float,
+
+        @JsonProperty("seconds_of_travel")
+        val secondsOfTravel: Long,
+
+        @JsonProperty("time")
+        val timeEpochSeconds: Long,
 
         @JsonProperty("car_id")
         val carId: Long,
+
+        @JsonProperty("car_name")
+        val carName: String,
+
         val note: String
 )

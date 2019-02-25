@@ -12,5 +12,6 @@ data class Position(
         val altitude: Float,
         val time: String,
         val accuracy: Float,
-        val speed: Float
+        val speed: Float,
+        val distance: Float
 )
