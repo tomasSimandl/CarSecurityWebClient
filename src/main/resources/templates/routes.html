@@ -8,6 +8,10 @@
 <div th:insert="fragments/general.html :: navigation"></div>
 
 <div class="container">
+    <div th:if="${#lists.isEmpty(routes)}" class="alert alert-secondary">
+        No routes. Get in car and make some!
+    </div>
+
     <div class="card-columns">
         <div th:each="route, iStat : ${routes}" class="card border-dark shadow">
             <a class="bg-complementary text-dark d-block" th:href="@{/route/{id}(id=${route.id})}">

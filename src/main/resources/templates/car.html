@@ -9,6 +9,10 @@
 
 <div class="container">
 
+    <div th:if="${#lists.isEmpty(cars)}" class="alert alert-secondary">
+        You do not have a car. New car can be crated with plus button or in mobile application.
+    </div>
+
     <!-- TOAST error message -->
     <div class="toast fade hide mw-100" role="alert" aria-live="assertive" aria-atomic="true" data-delay="20000">
         <div class="toast-header bg-danger text-light">
