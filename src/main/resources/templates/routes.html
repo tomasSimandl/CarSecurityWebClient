@@ -42,9 +42,9 @@
                     </tr>
                     <tr>
                         <th scope="col">Travel time</th>
-                        <td th:with="hours=${#numbers.formatInteger(route.secondsOfTravel/3600,0)},
-                                    minutes=${#numbers.formatInteger((route.secondsOfTravel/60)%60,0)},
-                                    seconds=${route.secondsOfTravel%60}"
+                        <td th:with="hours=${#numbers.formatInteger(route.secondsOfTravel/3600,1)},
+                                    minutes=${#numbers.formatInteger((route.secondsOfTravel/60)%60,2)},
+                                    seconds=${#numbers.formatInteger(route.secondsOfTravel%60,2)}"
                                 th:text="|${hours}:${minutes}:${seconds}|"  align="center"></td>
                     </tr>
                     <tr>

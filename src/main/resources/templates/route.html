@@ -5,7 +5,8 @@
 
 
 </head>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 <script  th:inline="javascript">
     function GetMap() {
@@ -57,8 +58,16 @@
 
     <div class="container">
 
+        <h2 class="mt-5">Map of route</h2>
         <div onload="GetMap()" id='myMap' class="w-100" style='height: 80vh;'></div>
 
+        <h2 class="mt-5">Car altitude</h2>
+        <canvas id="altitudeChart"></canvas>
+
+        <h2 class="mt-5">Car speed</h2>
+        <canvas id="speedChart"></canvas>
+
+        <h2 class="mt-5">Other data</h2>
         <table class="table">
             <tbody>
             <tr>
@@ -83,9 +92,9 @@
             </tr>
             <tr>
                 <th scope="col">Travel time</th>
-                <td th:with="hours=${#numbers.formatInteger(route.secondsOfTravel/3600,0)},
-                                    minutes=${#numbers.formatInteger((route.secondsOfTravel/60)%60,0)},
-                                    seconds=${route.secondsOfTravel%60}"
+                <td th:with="hours=${#numbers.formatInteger(route.secondsOfTravel/3600,1)},
+                                    minutes=${#numbers.formatInteger((route.secondsOfTravel/60)%60,2)},
+                                    seconds=${#numbers.formatInteger(route.secondsOfTravel%60,2)}"
                     th:text="|${hours}:${minutes}:${seconds}|"  align="center"></td>
             </tr>
             <tr>
@@ -101,6 +110,103 @@
     <script type='text/javascript'
             th:src="@{https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key={key}(key=${bingKey})}"
             async defer></script>
+
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var positions = [[${positions}]];
+
+        var ctx = document.getElementById('altitudeChart').getContext('2d');
+
+        var labels = [];
+        var data = [];
+        for (i = 0; i < positions.length; i++) {
+            data.push(positions[i].altitude);
+            labels.push(new Date(positions[i].time * 1000))
+        }
+
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: labels,
+                datasets: [{
+                    backgroundColor: 'rgba(27, 88, 227, 0.3)',
+                    borderColor: 'rgb(0, 25, 112)',
+                    data: data
+                }]
+            },
+
+            options: {
+                elements: { line: { tension: 0 } }, // disables bezier curves
+                legend: { display: false },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: { displayFormats: { second: 'HH:mm:ss' }
+                        }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            labelString: 'altitude [m]',
+                            display: true
+                        }
+                    }]
+                }
+            }
+        });
+        /*]]>*/
+    </script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var positions = [[${positions}]];
+
+        var ctx = document.getElementById('speedChart').getContext('2d');
+
+        var labels = [];
+        var data = [];
+        for (i = 0; i < positions.length; i++) {
+            data.push(positions[i].speed * 3.6);
+            labels.push(new Date(positions[i].time * 1000))
+        }
+
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: labels,
+                datasets: [{
+                    backgroundColor: 'rgba(27, 88, 227, 0.3)',
+                    borderColor: 'rgb(0, 25, 112)',
+                    data: data
+                }]
+            },
+
+            options: {
+                elements: { line: { tension: 0 } }, // disables bezier curves
+                legend: { display: false },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: { displayFormats: { second: 'HH:mm:ss' }
+                        }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            labelString: 'speed [km/h]',
+                            display: true
+                        }
+                    }]
+                }
+            }
+        });
+        /*]]>*/
+    </script>
 
 </body>
 
