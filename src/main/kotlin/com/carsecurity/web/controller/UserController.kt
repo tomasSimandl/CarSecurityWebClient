@@ -1,13 +1,10 @@
 package com.carsecurity.web.controller
 
-import com.carsecurity.web.rest.model.Token
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import java.security.Principal
 import javax.servlet.http.HttpSession
 
 @Controller
@@ -17,19 +14,27 @@ class UserController {
 
     @GetMapping("/register")
     fun register(
+            principal: Principal?,
             session: HttpSession,
             model: Model
     ) : String {
 
+        if(principal != null) {
+            return "forward:/"
+        }
         return "register"
     }
 
     @GetMapping("/login")
     fun login(
+            principal: Principal?,
             session: HttpSession,
             model: Model
     ) : String {
 
-        return "login"
+        if(principal != null) {
+            return "forward:/"
+        }
+        return "/login"
     }
 }
