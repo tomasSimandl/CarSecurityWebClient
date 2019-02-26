@@ -11,16 +11,25 @@ import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpSession
 
 @Controller
-class TestController {
+class UserController {
 
-    private val logger = LoggerFactory.getLogger(TestController::class.java)
+    private val logger = LoggerFactory.getLogger(UserController::class.java)
 
-    @GetMapping("test")
-    fun test(session: HttpSession, model: Model) : String {
+    @GetMapping("/register")
+    fun register(
+            session: HttpSession,
+            model: Model
+    ) : String {
 
-        val token = session.getAttribute("token") as Token
+        return "register"
+    }
 
-        //model.addAttribute("error", "${token.refreshToken}</br>${token.accessToken}</br>${token.tokenType}</br>${token.scope}</br>${token.expiresIn}")
-        return "test"
+    @GetMapping("/login")
+    fun login(
+            session: HttpSession,
+            model: Model
+    ) : String {
+
+        return "login"
     }
 }

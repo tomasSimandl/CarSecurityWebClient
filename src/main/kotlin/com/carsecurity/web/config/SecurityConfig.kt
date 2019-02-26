@@ -23,11 +23,17 @@ class SecurityConfig(
     override fun configure(http: HttpSecurity) {
         http
                 .authorizeRequests()
+
+                .antMatchers("/register*", "/login*", "/app.css")
+                .permitAll()
+
                 .anyRequest()
                 .authenticated()
+
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/test") // TODO
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
                 .and()
                 .csrf().disable()
 

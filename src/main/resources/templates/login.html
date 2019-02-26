@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/general.html :: head(title='Login')"></head>
+
+<body>
+<nav th:insert="fragments/general.html :: navigation"></nav>
+
+<div class="container">
+    <form class="form-signin m-auto pt-1" method="post" action="/login">
+        <legend>Please Login</legend>
+        <div th:if="${param.error}" class="alert alert-danger">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+            You have been logged out.
+        </div>
+        <div class="form-group">
+            <label for="input-username">Username</label>
+            <input name="username" type="text" class="form-control" id="input-username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="input-password">Password</label>
+            <input name="password" type="password" class="form-control" id="input-password" placeholder="Password">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 bg-main border-0">Login</button>
+        <small id="register-login-hint" class="form-text text-muted">
+            Don't have an account?
+            <a href="/register">Register</a>
+        </small>
+    </form>
+</div>
+</body>
+</html>

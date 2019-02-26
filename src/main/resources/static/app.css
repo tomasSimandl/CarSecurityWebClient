@@ -1,3 +1,7 @@
+.form-signin {
+    max-width: 330px;
+}
+
 .bg-main {
     background-color: #001970 !important;
 }

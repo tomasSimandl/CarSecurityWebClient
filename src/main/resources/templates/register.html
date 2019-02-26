@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/general.html :: head(title='Error')"></head>
+
+<body>
+<nav th:insert="fragments/general.html :: navigation"></nav>
+
+<div class="container">
+    <form class="form-signin m-auto pt-1" method="post" action="/register">
+        <div class="form-group">
+            <label for="input-username">Username</label>
+            <input type="text" class="form-control" id="input-username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="input-password-1">Password</label>
+            <input type="password" class="form-control" id="input-password-1" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="input-password-2">Password confirmation</label>
+            <input type="password" class="form-control" id="input-password-2" placeholder="Password">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 bg-main border-0">Register</button>
+        <small id="register-login-hint" class="form-text text-muted">
+            Have an account?
+            <a href="/login">Log in</a>
+        </small>
+    </form>
+</div>
+</body>
+</html>
