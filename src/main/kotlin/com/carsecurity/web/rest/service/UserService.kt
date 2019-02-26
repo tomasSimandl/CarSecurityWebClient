@@ -6,4 +6,5 @@ interface UserService {
 
     fun login(username: String, password: String): Token
     fun refresh(refreshToken: String): Token
+    fun register(username: String, password: String): Int
 }

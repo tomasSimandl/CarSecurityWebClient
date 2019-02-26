@@ -6,29 +6,34 @@
 <nav th:insert="fragments/general.html :: navigation"></nav>
 
 <div class="container">
-    <form class="form-signin m-auto pt-1" method="post" action="/login">
-        <legend>Please Login</legend>
-        <div th:if="${param.error}" class="alert alert-danger">
-            Invalid username and password.
-        </div>
-        <div th:if="${param.logout}" class="alert alert-success">
-            You have been logged out.
-        </div>
-        <div class="form-group">
-            <label for="input-username">Username</label>
-            <input name="username" type="text" class="form-control" id="input-username" placeholder="Enter username">
-        </div>
-        <div class="form-group">
-            <label for="input-password">Password</label>
-            <input name="password" type="password" class="form-control" id="input-password" placeholder="Password">
-        </div>
+    <div class="form-signin m-auto pt-1">
+        <h1>Please Login</h1>
+        <form method="post" action="/login">
+            <div th:if="${param.error}" class="alert alert-danger">
+                Invalid username and password.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success">
+                You have been logged out.
+            </div>
+            <div th:if="${param.registered}" class="alert alert-success">
+                You have been successfully registered. You can login now.
+            </div>
+            <div class="form-group">
+                <label for="input-username">Username</label>
+                <input name="username" type="text" class="form-control" id="input-username" placeholder="Enter username" required>
+            </div>
+            <div class="form-group">
+                <label for="input-password">Password</label>
+                <input name="password" type="password" class="form-control" id="input-password" placeholder="Password" required>
+            </div>
 
-        <button type="submit" class="btn btn-primary w-100 bg-main border-0">Login</button>
-        <small id="register-login-hint" class="form-text text-muted">
-            Don't have an account?
-            <a href="/register">Register</a>
-        </small>
-    </form>
+            <button type="submit" class="btn btn-primary w-100 bg-main border-0">Login</button>
+            <small id="register-login-hint" class="form-text text-muted">
+                Don't have an account?
+                <a href="/register">Register</a>
+            </small>
+        </form>
+    </div>
 </div>
 </body>
 </html>

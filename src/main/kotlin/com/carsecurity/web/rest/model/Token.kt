@@ -13,7 +13,7 @@ data class Token (
         val tokenType: String,
 
         @JsonProperty("refresh_token")
-        val refreshToken: String,
+        val refreshToken: String = "",
 
         @JsonProperty("expires_in")
         val expiresIn: Long,
