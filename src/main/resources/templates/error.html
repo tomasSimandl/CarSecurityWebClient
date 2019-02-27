@@ -3,7 +3,7 @@
 <head th:insert="fragments/general.html :: head(title='Error')"> </head>
 
 <body>
-    <nav th:insert="fragments/general.html :: navigation"></nav>
+    <nav th:replace="fragments/general.html :: navigation"></nav>
 
     <div class="container alert alert-danger" role="alert">
         <span th:text="${error}"></span>
