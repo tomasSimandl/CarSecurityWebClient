@@ -97,32 +97,23 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button id="btn-delete" type="button" class="btn btn-danger" data-dismiss="modal"
-                        data-toggle="modal" data-target="#delete-car-modal">Delete Car</button>
+                        data-toggle="modal" data-target="#modal-delete">Delete Car
+                </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="submitFormCar()">Save changes</button>
+                        onclick="submitFormCar()">Save changes
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<div id="delete-car-modal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete car</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Do you really want to delete this car and every routes and events with it?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteCar()">Delete</button>
-            </div>
-        </div>
-    </div>
+<!-- DELETE CAR MODAL -->
+<div th:replace="fragments/modal.html :: modalDelete(
+                                           'Do you really want to delete this car and every routes and events with it?',
+                                           ~{ :: #delete-button})">
+    <button id="delete-button" type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteCar()">
+        Delete
+    </button>
 </div>
 
 <script>
@@ -148,7 +139,7 @@
     function deleteCar() {
         var url = '/car';
         var carId = $('#btn-delete').data('car-id');
-        var data = {car_id: carId };
+        var data = {car_id: carId};
 
         sendAjaxCar(url, 'DELETE', data);
     }
@@ -156,12 +147,12 @@
     function submitFormCar() {
         var url = '/car';
         var formData = $('#car-modal-form').serializeArray();
-        var method = ($('#car-id').val() === '' ) ? 'POST' : 'PUT'
+        var method = ($('#car-id').val() === '') ? 'POST' : 'PUT'
 
         sendAjaxCar(url, method, formData)
     }
 
-    function sendAjaxCar(url, method, data){
+    function sendAjaxCar(url, method, data) {
         $.ajax({
             url: url,
             type: method,

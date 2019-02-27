@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<!-- HEAD -->
 <head th:fragment="head(title)">
     <title th:text="${title}"></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <link rel="stylesheet" href="/app.css" >
+    <link rel="stylesheet" href="/app.css">
 
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -26,6 +27,7 @@
 </head>
 
 <body>
+<!-- NAVIGATION -->
 <nav th:fragment="navigation" class="navbar navbar-expand-lg navbar-dark bg-main mb-2">
     <a class="navbar-brand" href="/">Car security</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -57,7 +59,8 @@
 </nav>
 
 <!-- TOAST error message toast -->
-<div th:fragment="errorToast" class="toast fade hide mw-100" role="alert" aria-live="assertive" aria-atomic="true" data-delay="20000">
+<div th:fragment="errorToast" class="toast fade hide mw-100" role="alert" aria-live="assertive" aria-atomic="true"
+     data-delay="20000">
     <div class="toast-header bg-danger text-light">
         <span class="rounded mr-2 oi oi-warning"></span>
         <strong class="mr-auto">Error</strong>
@@ -67,6 +70,7 @@
     </div>
     <div id="toast-body" class="toast-body"></div>
 </div>
+
 
 </body>
 </html>
