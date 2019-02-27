@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+
+<div th:fragment="carsFilter(pageTitle, baseUrl, cars)" class="row justify-content-around mb-2">
+    <h2 class="col-sm-12 col-md-5 mb-0" th:text="${pageTitle}"></h2>
+    <div class="col-sm-12 col-md-5">
+        <div class="btn-group float-right" role="group">
+            <button id="btn-group-drop" type="button" class="btn bg-main text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter by Car
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btn-group-drop">
+                <a class="dropdown-item text-danger" href="/event">Disable filter</a>
+                <a th:each="car, iStat : ${cars}" class="dropdown-item" th:href="@{/{baseUrl}?car_id={id}(id=${car.id},baseUrl=${baseUrl})}" th:text="${car.name}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
