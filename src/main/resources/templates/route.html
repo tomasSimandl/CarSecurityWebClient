@@ -84,7 +84,7 @@
             </tr>
             <tr>
                 <th scope="col">Length</th>
-                <td th:text="|${route.length} m|" align="center"></td>
+                <td th:text="|${#numbers.formatDecimal(route.length/1000,1,2)} km|" align="center"></td>
             </tr>
             <tr>
                 <th scope="col">Average speed</th>
