@@ -4,7 +4,7 @@
 <head th:insert="fragments/general.html :: head(title='Route', scripts=~{ :: .scripts})"> </head>
     <script class="script" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script class="script" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-    <script class="script" src="/js/route.js"></script>
+    <script class="script" type="text/javascript" th:src="@{/js/route.js}"></script>
 </head>
 
 <body>
