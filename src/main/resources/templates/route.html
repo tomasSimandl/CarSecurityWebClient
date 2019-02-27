@@ -7,51 +7,8 @@
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="/js/route.js"></script>
 
-<script  th:inline="javascript">
-    function GetMap() {
-        /*<![CDATA[*/
-        var positions = [[${positions}]];
-
-        var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
-            /* No need to set credentials if already passed in URL */
-            center: new Microsoft.Maps.Location(positions[0].latitude, positions[0].longitude),
-            zoom: 16,
-            mapTypeId: Microsoft.Maps.MapTypeId.road
-        });
-        var array = [];
-        var i;
-        for (i = 0; i < positions.length; i++) {
-            array.push(new Microsoft.Maps.Location(positions[i].latitude, positions[i].longitude));
-        }
-
-
-        var polyline = new Microsoft.Maps.Polyline(positions, {strokeColor: 'Blue', strokeThickness: 2});
-        map.entities.push(polyline);
-
-
-        var pinStart = new Microsoft.Maps.Pushpin(array[0], {
-            title: 'Start',
-            color: 'green',
-            text: 'S'
-        });
-        var pinEnd = new Microsoft.Maps.Pushpin(array[array.length-1], {
-            title: 'End',
-            color: 'red',
-            text: 'E'
-        });
-        map.entities.push(pinStart);
-        map.entities.push(pinEnd);
-
-
-
-        Microsoft.Maps.loadModule('Microsoft.Maps.WellKnownText', function () {
-            document.getElementById('printoutPanel').innerHTML = Microsoft.Maps.WellKnownText.write(polyline);
-        });
-        /*]]>*/
-    }
-
-</script>
 <body>
 
     <nav th:replace="fragments/general.html :: navigation"></nav>
@@ -60,14 +17,23 @@
         <!-- ERROR TOAST -->
         <div th:replace="fragments/general.html :: errorToast"></div>
 
-        <h2 class="mt-5">Map of route</h2>
-        <div onload="GetMap()" id='myMap' class="w-100" style='height: 80vh;'></div>
+        <div th:if="${not #lists.isEmpty(positions)}">
+            <h2 class="mt-5">Map of route</h2>
+            <div id='mapPanel' class="w-100" style='height: 80vh;'></div>
 
-        <h2 class="mt-5">Car altitude</h2>
-        <canvas id="altitudeChart"></canvas>
+            <h2 class="mt-5">Car altitude</h2>
+            <canvas id="altitudeChart"></canvas>
 
-        <h2 class="mt-5">Car speed</h2>
-        <canvas id="speedChart"></canvas>
+            <h2 class="mt-5">Car speed</h2>
+            <canvas id="speedChart"></canvas>
+
+
+            <script  th:inline="javascript">/*<![CDATA[*/setPositions([[${positions}]]);/*]]>*/</script>
+            <!-- Reference to the Bing Maps SDK -->
+            <script type='text/javascript'
+                    th:src="@{https://www.bing.com/api/maps/mapcontrol(callback='getMap', key=${bingKey})}"
+                    async defer></script>
+        </div>
 
         <h2 class="mt-5">Other data</h2>
         <table class="table mb-0">
@@ -120,136 +86,6 @@
             Delete
         </button>
     </div>
-
-
-    <!-- Reference to the Bing Maps SDK -->
-    <script type='text/javascript'
-            th:src="@{https://www.bing.com/api/maps/mapcontrol(callback='GetMap', key=${bingKey})}"
-            async defer></script>
-
-
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var positions = [[${positions}]];
-
-        var ctx = document.getElementById('altitudeChart').getContext('2d');
-
-        var labels = [];
-        var data = [];
-        for (i = 0; i < positions.length; i++) {
-            data.push(positions[i].altitude);
-            labels.push(new Date(positions[i].time * 1000))
-        }
-
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'line',
-
-            // The data for our dataset
-            data: {
-                labels: labels,
-                datasets: [{
-                    backgroundColor: 'rgba(27, 88, 227, 0.3)',
-                    borderColor: 'rgb(0, 25, 112)',
-                    data: data
-                }]
-            },
-
-            options: {
-                elements: { line: { tension: 0 } }, // disables bezier curves
-                legend: { display: false },
-                scales: {
-                    xAxes: [{
-                        type: 'time',
-                        time: { displayFormats: { second: 'HH:mm:ss' }
-                        }
-                    }],
-                    yAxes: [{
-                        scaleLabel: {
-                            labelString: 'altitude [m]',
-                            display: true
-                        }
-                    }]
-                }
-            }
-        });
-        /*]]>*/
-    </script>
-
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var positions = [[${positions}]];
-
-        var ctx = document.getElementById('speedChart').getContext('2d');
-
-        var labels = [];
-        var data = [];
-        for (i = 0; i < positions.length; i++) {
-            data.push(positions[i].speed * 3.6);
-            labels.push(new Date(positions[i].time * 1000))
-        }
-
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'line',
-
-            // The data for our dataset
-            data: {
-                labels: labels,
-                datasets: [{
-                    backgroundColor: 'rgba(27, 88, 227, 0.3)',
-                    borderColor: 'rgb(0, 25, 112)',
-                    data: data
-                }]
-            },
-
-            options: {
-                elements: { line: { tension: 0 } }, // disables bezier curves
-                legend: { display: false },
-                scales: {
-                    xAxes: [{
-                        type: 'time',
-                        time: { displayFormats: { second: 'HH:mm:ss' }
-                        }
-                    }],
-                    yAxes: [{
-                        scaleLabel: {
-                            labelString: 'speed [km/h]',
-                            display: true
-                        }
-                    }]
-                }
-            }
-        });
-        /*]]>*/
-    </script>
-
-<script>
-
-    function sendAjaxCar(url, method, data, successFunction){
-        $.ajax({
-            url: url,
-            type: method,
-            data: data
-        })
-            .done(successFunction)
-            .fail(function (data) {
-                $('#toast-body').text(data.responseJSON.error);
-                $('.toast').toast('show');
-            })
-        ;
-    }
-
-    function deleteRoute(routeId) {
-        var url = '/route';
-        var data = {route_id: routeId };
-        var successFunction = function() {
-              window.location.href = "/route"
-        };
-
-        sendAjaxCar(url, 'DELETE', data, successFunction);
-    }
-</script>
 
 </body>
 

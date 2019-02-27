@@ -24,7 +24,7 @@ class SecurityConfig(
         http
                 .authorizeRequests()
 
-                .antMatchers("/register*", "/login*", "/app.css")
+                .antMatchers("/register*", "/login*", "/css/**")
                 .permitAll()
 
                 .anyRequest()

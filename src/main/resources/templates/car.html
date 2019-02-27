@@ -3,7 +3,7 @@
 
 <head th:insert="fragments/general.html :: head(title='Cars')"></head>
 
-<body>
+<body onload="initCarModal()">
 
 <nav th:replace="fragments/general.html :: navigation"></nav>
 
@@ -115,59 +115,6 @@
         Delete
     </button>
 </div>
-
-<script>
-    $('#carModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-
-        var modal = $(this);
-        modal.find('#car-icon').val(button.data('icon'));
-        modal.find('#car-name').val(button.data('name'));
-        modal.find('#car-modal-label').text(button.data('title'));
-
-        if (button.data('show-delete') === false) {
-            modal.find('#btn-delete').hide();
-            $('#car-id').val("");
-        } else {
-            var btnDelete = modal.find('#btn-delete');
-            btnDelete.show();
-            btnDelete.data('car-id', button.data('car-id'));
-            $('#car-id').val(button.data('car-id'));
-        }
-    });
-
-    function deleteCar() {
-        var url = '/car';
-        var carId = $('#btn-delete').data('car-id');
-        var data = {car_id: carId};
-
-        sendAjaxCar(url, 'DELETE', data);
-    }
-
-    function submitFormCar() {
-        var url = '/car';
-        var formData = $('#car-modal-form').serializeArray();
-        var method = ($('#car-id').val() === '') ? 'POST' : 'PUT'
-
-        sendAjaxCar(url, method, formData)
-    }
-
-    function sendAjaxCar(url, method, data) {
-        $.ajax({
-            url: url,
-            type: method,
-            data: data
-        })
-            .done(function () {
-                location.reload();
-            })
-            .fail(function (data) {
-                $('#toast-body').text(data.responseJSON.error);
-                $('.toast').toast('show');
-            })
-        ;
-    }
-</script>
 
 </body>
 </html>
