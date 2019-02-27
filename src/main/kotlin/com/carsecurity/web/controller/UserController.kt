@@ -26,7 +26,7 @@ class UserController(private val userService: UserService) {
         if(principal != null) {
             return "forward:/"
         }
-        return "/login"
+        return "login"
     }
 
     @GetMapping("/register")
