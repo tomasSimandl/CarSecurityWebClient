@@ -74,4 +74,12 @@ class RouteController(
     ): ByteArray {
         return routeService.getRouteMap(routeId)
     }
+
+    @ResponseBody
+    @DeleteMapping("route")
+    fun deleteEvent(
+            @RequestParam(value = "route_id") routeId: Long
+    ) {
+        routeService.removeRoute(routeId)
+    }
 }

@@ -79,4 +79,9 @@ class RouteServiceImpl(
         return routeEntity.body!!.count
     }
 
+    override fun removeRoute(routeId: Long) {
+        val url = "$restServerUrl$ROUTE_MAPPING?route_id=$routeId"
+        restTemplate.delete(url)
+    }
+
 }

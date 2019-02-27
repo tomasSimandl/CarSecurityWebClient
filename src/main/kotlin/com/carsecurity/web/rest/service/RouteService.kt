@@ -11,4 +11,5 @@ interface RouteService {
     fun getRouteMap(routeId: Long): ByteArray
     fun countRoutes(): Long
     fun countRoutesByCar(carId: Long): Long
+    fun removeRoute(routeId: Long)
 }
