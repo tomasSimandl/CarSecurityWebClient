@@ -29,6 +29,13 @@ class EventServiceImpl(
         return eventEntity.body!!
     }
 
+    override fun getEventsByCar(page: Int, carId: Long): Array<Event> {
+        val url = "$restServerUrl$EVENT_MAPPING?page=$page&limit=$pageLimit&car_id=$carId"
+
+        val eventEntity = restTemplate.getForEntity(url, Array<Event>::class.java)
+        return eventEntity.body!!
+    }
+
     override fun updateEvent(id: Long, note: String) {
         val url = "$restServerUrl$EVENT_MAPPING"
 
