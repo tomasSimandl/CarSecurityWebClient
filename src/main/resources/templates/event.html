@@ -45,7 +45,7 @@
 
     <div th:if="${not #lists.isEmpty(events)}" class="row justify-content-center mb-3">
         <button id="btn-load-next" type="button" title="load next data" class="btn btn-lg bg-main text-light"
-                data-page="0" onclick="loadData()">Load next</button>
+                data-page="0"  th:dataUrl="${loadNextUrl}" th:onclick="javascript:loadData(this.getAttribute('dataUrl'));">Load next</button>
     </div>
 </div>
 
@@ -143,12 +143,12 @@
         ;
     }
 
-    function loadData() {
+    function loadData(url) {
         var button = $('#btn-load-next');
         var page = button.data('page') + 1;
-        var url = '/event?page=' + page;
+        // var url = '/event?page=' + page;
 
-        $.get(url)
+        $.get(url + page)
             .done(function (data) {
                 if(data === ''){
                     button.hide()

@@ -24,24 +24,33 @@ class EventController(
             @RequestParam(value = "car_id", required = false) carId: Long?
     ): String {
 
-        val cars = carService.getCars()
+        val loadNextUrl: String
         val events = if(carId == null){
+            loadNextUrl = "/event?"
             eventService.getEvents(page = 0)
         } else {
+            loadNextUrl = "/event?car_id=$carId&"
             eventService.getEventsByCar(page = 0, carId = carId)
         }
+        val cars = carService.getCars()
 
         model.addAttribute("events", events)
         model.addAttribute("cars", cars)
+        model.addAttribute("loadNextUrl", "${loadNextUrl}page=")
         return "event"
     }
 
     @GetMapping("event", params = ["page"])
     fun loadEvents(
             model: Model,
-            @RequestParam(value = "page") page: Int
+            @RequestParam(value = "page") page: Int,
+            @RequestParam(value = "car_id", required = false) carId: Long?
     ): String {
-        val events = eventService.getEvents(page)
+        val events = if(carId == null){
+            eventService.getEvents(page = page)
+        } else {
+            eventService.getEventsByCar(page = page, carId = carId)
+        }
 
         model.addAttribute("events", events)
         return "fragments/event :: events"
