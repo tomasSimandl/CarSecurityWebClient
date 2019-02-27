@@ -57,18 +57,8 @@
     <nav th:replace="fragments/general.html :: navigation"></nav>
 
     <div class="container">
-
-        <!-- TOAST error message TODO create as fragment -->
-        <div class="toast fade hide mw-100" role="alert" aria-live="assertive" aria-atomic="true" data-delay="20000">
-            <div class="toast-header bg-danger text-light">
-                <span class="rounded mr-2 oi oi-warning"></span>
-                <strong class="mr-auto">Error</strong>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div id="toast-body" class="toast-body"></div>
-        </div>
+        <!-- ERROR TOAST -->
+        <div th:replace="fragments/general.html :: errorToast"></div>
 
         <h2 class="mt-5">Map of route</h2>
         <div onload="GetMap()" id='myMap' class="w-100" style='height: 80vh;'></div>
