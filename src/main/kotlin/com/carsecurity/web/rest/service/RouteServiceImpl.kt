@@ -45,6 +45,13 @@ class RouteServiceImpl(
         return routeEntity.body!!
     }
 
+    override fun getRoutesByCar(page: Int, carId: Long): Array<Route> {
+        val url = "$restServerUrl$ROUTE_MAPPING?page=$page&limit=$pageLimit&car_id=$carId"
+
+        val routeEntity = restTemplate.getForEntity(url, Array<Route>::class.java)
+        return routeEntity.body!!
+    }
+
     override fun getRouteMap(routeId: Long): ByteArray {
         val url = "$restServerUrl$ROUTE_MAPPING/map?route_id=$routeId"
 
@@ -60,6 +67,13 @@ class RouteServiceImpl(
 
     override fun countRoutes(): Long {
         val url = "$restServerUrl$ROUTE_COUNT_MAPPING"
+
+        val routeEntity = restTemplate.getForEntity(url, Count::class.java)
+        return routeEntity.body!!.count
+    }
+
+    override fun countRoutesByCar(carId: Long): Long {
+        val url = "$restServerUrl$ROUTE_COUNT_MAPPING?car_id=$carId"
 
         val routeEntity = restTemplate.getForEntity(url, Count::class.java)
         return routeEntity.body!!.count

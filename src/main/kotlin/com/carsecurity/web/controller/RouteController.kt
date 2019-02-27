@@ -1,5 +1,7 @@
 package com.carsecurity.web.controller
 
+import com.carsecurity.web.rest.model.Route
+import com.carsecurity.web.rest.service.CarService
 import com.carsecurity.web.rest.service.PositionService
 import com.carsecurity.web.rest.service.RouteService
 import org.slf4j.LoggerFactory
@@ -14,6 +16,7 @@ import kotlin.math.ceil
 class RouteController(
         private val routeService: RouteService,
         private val positionService: PositionService,
+        private val carService: CarService,
 
         @Value("\${web.data.load.page.limit}")
         private val pageLimit: Int,
@@ -39,14 +42,26 @@ class RouteController(
     @GetMapping("route")
     fun getRoutes(
             model: Model,
-            @RequestParam("page", defaultValue = "1", required = false) page: Int
+            @RequestParam("page", defaultValue = "1", required = false) page: Int,
+            @RequestParam("car_id", required = false) carId: Long?
     ): String {
 
         val validPage = if(page > 0) page - 1 else 0
-        val routes = routeService.getRoutes(validPage)
-        val numberOfRoutes = routeService.countRoutes()
+        val routes: Array<Route>
+        val numberOfRoutes: Long
+
+        if (carId == null){
+            routes = routeService.getRoutes(validPage)
+            numberOfRoutes = routeService.countRoutes()
+        } else {
+            model.addAttribute("carId", carId)
+            routes = routeService.getRoutesByCar(validPage, carId)
+            numberOfRoutes = routeService.countRoutesByCar(carId)
+        }
+        val cars = carService.getCars()
 
         model.addAttribute("routes", routes)
+        model.addAttribute("cars", cars)
         model.addAttribute("numberOfPages", ceil(numberOfRoutes/pageLimit.toFloat()))
         model.addAttribute("actualPage", validPage + 1)
         return "routes"
