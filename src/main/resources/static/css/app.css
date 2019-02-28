@@ -19,6 +19,10 @@
     word-break: break-all;
 }
 
+.break-all {
+    word-break:break-all;
+}
+
 .w-80 {
     width: 80%;
 }
