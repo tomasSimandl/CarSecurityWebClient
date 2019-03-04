@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: head(title='Route')"></head>
+
+<body>
+
+<nav th:replace="fragments/general.html :: navigation"></nav>
+
+<div class="container">
+
+    <div class="card-columns">
+        <div th:each="car, iStat : ${cars}"  class="card border-dark">
+            <h5 class="card-header bg-complementary text-dark" th:text="${car.name}"></h5>
+            <div class="card-body text-center">
+                <button th:onclick="'javascript:refreshStatus(' + ${car.id} + ')'">Reload</button>
+                <div th:id="|table-car-${car.id}|"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function refreshStatus(carId) {
+
+        var url = '/status';
+        var data = {car_id: carId};
+        var method = 'GET';
+        var successFunc = function (status) {
+            $('#table-car-' + carId).replaceWith(status)
+        };
+
+        sendAjax(url, method, data, successFunc)
+    }
+</script>
+
+</body>
+</html>

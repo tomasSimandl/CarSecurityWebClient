@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<!-- CARD with event -->
+<div th:id="|table-car-${status.carId}|" th:fragment="statusFragment">
+<table>
+    <tbody>
+    <tr>
+        <th scope="col">Battery</th>
+        <td th:text="${status.battery}" align="center"></td>
+    </tr>
+    <tr>
+        <th scope="col">Charging</th>
+        <td th:text="${status.isCharging()}" align="center"></td>
+    </tr>
+    <tr>
+        <th scope="col">Power save mode</th>
+        <td th:text="${status.powerSaveMode}" align="center"></td>
+    </tr>
+    <tr>
+        <th scope="col">Date</th>
+        <td th:text="${#dates.format(status.time, 'dd.MM.yyyy')}"  align="center"></td>
+    </tr>
+    <tr>
+        <th scope="col">Time</th>
+        <td th:text="${#dates.format(status.time, 'HH:mm:ss')}"  align="center"></td>
+    </tr>
+    <!-- TODO show utils-->
+    <tr>
+        <th scope="col">Car ID</th>
+        <td th:text="${status.carId}"  align="center"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>
