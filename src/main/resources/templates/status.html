@@ -14,6 +14,14 @@
             <h5 class="card-header bg-complementary text-dark" th:text="${car.name}"></h5>
             <div class="card-body text-center">
                 <button th:onclick="'javascript:refreshStatus(' + ${car.id} + ')'">Reload</button>
+                <form action="/tool/activate" method="post">
+                    <input name="car_id" type="hidden" th:value="${car.id}">
+                    <button type="submit" class="btn bg-main border-0">Activate</button>
+                </form>
+                <form action="/tool/deactivate" method="post">
+                    <input name="car_id" type="hidden" th:value="${car.id}">
+                    <button type="submit" class="btn bg-main border-0">Deactivate</button>
+                </form>
                 <div th:id="|table-car-${car.id}|"></div>
             </div>
         </div>
