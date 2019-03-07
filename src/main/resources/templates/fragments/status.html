@@ -4,35 +4,50 @@
 <body>
 <!-- CARD with event -->
 <div th:id="|table-car-${status.carId}|" th:fragment="statusFragment">
-<table>
-    <tbody>
-    <tr>
-        <th scope="col">Battery</th>
-        <td th:text="${status.battery}" align="center"></td>
-    </tr>
-    <tr>
-        <th scope="col">Charging</th>
-        <td th:text="${status.isCharging()}" align="center"></td>
-    </tr>
-    <tr>
-        <th scope="col">Power save mode</th>
-        <td th:text="${status.powerSaveMode}" align="center"></td>
-    </tr>
-    <tr>
-        <th scope="col">Date</th>
-        <td th:text="${#dates.format(status.time, 'dd.MM.yyyy')}"  align="center"></td>
-    </tr>
-    <tr>
-        <th scope="col">Time</th>
-        <td th:text="${#dates.format(status.time, 'HH:mm:ss')}"  align="center"></td>
-    </tr>
-    <!-- TODO show utils-->
-    <tr>
-        <th scope="col">Car ID</th>
-        <td th:text="${status.carId}"  align="center"></td>
-    </tr>
-    </tbody>
-</table>
+
+    <button th:if="${status.utils['Alarm']}" class="btn btn-success border-0 text-light w-100 mb-1"
+            th:onclick="'javascript:deactivateTool(' + ${status.carId} + ',\'alarm\')'">Turn off alarm
+    </button>
+    <button th:unless="${status.utils['Alarm']}" class="btn bg-main border-0 text-light w-100 mb-1"
+            th:onclick="'javascript:activateTool(' + ${status.carId} + ',\'alarm\')'">Turn on alarm
+    </button>
+    <button th:if="${status.utils['Tracker']}" class="btn btn-success border-0 text-light w-100 mb-1"
+            th:onclick="'javascript:deactivateTool(' + ${status.carId} + ',\'tracker\')'">Turn off tracker
+    </button>
+    <button th:unless="${status.utils['Tracker']}" class="btn bg-main border-0 text-light w-100 mb-1"
+            th:onclick="'javascript:activateTool(' + ${status.carId} + ',\'tracker\')'">Turn on tracker
+    </button>
+
+    <table>
+        <tbody>
+        <tr>
+            <th scope="col">Battery</th>
+            <td th:text="|${#numbers.formatInteger(status.battery * 100, 1)}%|" align="center"></td>
+        </tr>
+        <tr>
+            <th scope="col">Charging</th>
+            <td th:class="${status.isCharging() ? 'oi oi-circle-check text-success' : 'oi oi-circle-x text-danger'}"
+                align="center"></td>
+        </tr>
+        <tr>
+            <th scope="col">Power save mode</th>
+            <td th:class="${status.powerSaveMode ? 'oi oi-circle-check text-success' : 'oi oi-circle-x text-danger'}"
+                align="center"></td>
+        </tr>
+        <tr>
+            <th scope="col">Date</th>
+            <td th:text="${#dates.format(status.time, 'dd.MM.yyyy')}" align="center"></td>
+        </tr>
+        <tr>
+            <th scope="col">Time</th>
+            <td th:text="${#dates.format(status.time, 'HH:mm:ss')}" align="center"></td>
+        </tr>
+        <tr>
+            <th scope="col">Car ID</th>
+            <td th:text="${status.carId}" align="center"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

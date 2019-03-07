@@ -33,7 +33,11 @@ class CustomErrorAttributes: DefaultErrorAttributes() {
                 statusCode = HttpServletResponse.SC_UNAUTHORIZED
                 message = "Not authorized for this operation."
 
-            } else {
+            } else if (ex.statusCode == HttpStatus.REQUEST_TIMEOUT){
+                statusCode = HttpServletResponse.SC_REQUEST_TIMEOUT
+                message = "Device is unreachable. Request timeout."
+            }
+            else {
                 statusCode = ex.statusCode.value()
                 try {
                     val json = JsonParser().parse(ex.responseBodyAsString) as JsonObject

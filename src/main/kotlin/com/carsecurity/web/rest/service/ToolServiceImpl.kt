@@ -17,21 +17,22 @@ class ToolServiceImpl(
         private val restTemplate: RestTemplate
 ) : ToolService {
 
-    override fun activateTool(carId: Long): String {
+    override fun activateTool(carId: Long, tool: String): String? {
         val url = "$restServerUrl$TOOL_ACTIVATE_MAPPING"
-        return switchTool(carId, url)
+        return switchTool(carId, tool, url)
     }
 
-    override fun deactivateTool(carId: Long): String {
+    override fun deactivateTool(carId: Long, tool: String): String? {
         val url = "$restServerUrl$TOOL_DEACTIVATE_MAPPING"
-        return switchTool(carId, url)
+        return switchTool(carId, tool, url)
     }
 
-    private fun switchTool(carId: Long, url: String): String {
+    private fun switchTool(carId: Long, tool: String, url: String): String?{
         val map = LinkedMultiValueMap<String, String>()
         map["car_id"] = carId.toString()
+        map["tool"] = tool
 
         val resultEntity = restTemplate.postForEntity(url, map, String::class.java)
-        return resultEntity.body!!
+        return resultEntity.body
     }
 }

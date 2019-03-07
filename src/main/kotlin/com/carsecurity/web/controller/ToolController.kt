@@ -19,17 +19,19 @@ class ToolController(
     @ResponseBody
     fun activateTool(
             model: Model,
-            @RequestParam(value = "car_id") carId: Long
+            @RequestParam(value = "car_id") carId: Long,
+            @RequestParam(value = "tool") tool: String
     ){
-        toolService.activateTool(carId)
+        toolService.activateTool(carId, tool)
     }
 
     @PostMapping("tool/deactivate")
     @ResponseBody
     fun deactivateTool(
             model: Model,
-            @RequestParam(value = "car_id") carId: Long
+            @RequestParam(value = "car_id") carId: Long,
+            @RequestParam(value = "tool") tool: String
     ){
-        toolService.deactivateTool(carId)
+        toolService.deactivateTool(carId, tool)
     }
 }

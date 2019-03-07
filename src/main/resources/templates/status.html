@@ -3,44 +3,43 @@
 
 <head th:insert="fragments/general.html :: head(title='Route')"></head>
 
-<body>
+<body onload="refreshStatusAll()">
 
 <nav th:replace="fragments/general.html :: navigation"></nav>
 
 <div class="container">
 
+    <!-- ERROR TOAST -->
+    <div th:replace="fragments/general.html :: errorToast"></div>
+
     <div class="card-columns">
         <div th:each="car, iStat : ${cars}"  class="card border-dark">
             <h5 class="card-header bg-complementary text-dark" th:text="${car.name}"></h5>
-            <div class="card-body text-center">
-                <button th:onclick="'javascript:refreshStatus(' + ${car.id} + ')'">Reload</button>
-                <form action="/tool/activate" method="post">
-                    <input name="car_id" type="hidden" th:value="${car.id}">
-                    <button type="submit" class="btn bg-main border-0">Activate</button>
-                </form>
-                <form action="/tool/deactivate" method="post">
-                    <input name="car_id" type="hidden" th:value="${car.id}">
-                    <button type="submit" class="btn bg-main border-0">Deactivate</button>
-                </form>
+            <div class="card-body text-center" th:onload="'javascript:refreshStatus(' + ${car.id} + ')'">
+                
+                <button th:id="|btn-status-${car.id}|" class="btn bg-main border-0 text-light w-100 mb-1"
+                        th:onclick="'javascript:refreshStatus(' + ${car.id} + ')'">Reload
+                </button>
+
+                <div th:id="|spinner-${car.id}|" class="spinner-border m-2" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+
                 <div th:id="|table-car-${car.id}|"></div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    function refreshStatus(carId) {
-
-        var url = '/status';
-        var data = {car_id: carId};
-        var method = 'GET';
-        var successFunc = function (status) {
-            $('#table-car-' + carId).replaceWith(status)
-        };
-
-        sendAjax(url, method, data, successFunc)
+<script  th:inline="javascript">
+    /*<![CDATA[*/
+    function refreshStatusAll() {
+        var cars = /*[[${cars}]]*/ [];
+        cars.forEach( function (car){
+            refreshStatus(car.id)
+        });
     }
+    /*]]>*/
 </script>
-
 </body>
 </html>

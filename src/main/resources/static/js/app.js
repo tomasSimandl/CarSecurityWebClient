@@ -1,16 +1,18 @@
 
-function sendAjax(url, method, data, successFunction){
+function sendAjax(url, method, data, successFunction, failFunction){
     $.ajax({
         url: url,
         type: method,
         data: data
     })
         .done(successFunction)
-        .fail(function (data) {
-            $('#toast-body').text(data.responseJSON.error);
-            $('.toast').toast('show');
-        })
+        .fail(failFunction)
     ;
+}
+
+function showFail(data){
+    $('#toast-body').text(data.responseJSON.error);
+    $('.toast').toast('show');
 }
 
 
@@ -23,7 +25,7 @@ function deleteEvent() {
         location.reload();
     };
 
-    sendAjax(url, 'DELETE', data, successFunc);
+    sendAjax(url, 'DELETE', data, successFunc, showFail);
 }
 
 function submitFormEvent() {
@@ -33,7 +35,7 @@ function submitFormEvent() {
         location.reload();
     };
 
-    sendAjax(url, 'PUT', formData, successFunc)
+    sendAjax(url, 'PUT', formData, successFunc, showFail)
 }
 
 function initEventModal() {
@@ -76,7 +78,7 @@ function deleteCar() {
         location.reload();
     };
 
-    sendAjax(url, 'DELETE', data, successFunc);
+    sendAjax(url, 'DELETE', data, successFunc, showFail);
 }
 
 function submitFormCar() {
@@ -87,7 +89,7 @@ function submitFormCar() {
         location.reload();
     };
 
-    sendAjax(url, method, formData, successFunc)
+    sendAjax(url, method, formData, successFunc, showFail)
 }
 
 function initCarModal() {
@@ -120,5 +122,49 @@ function deleteRoute(routeId) {
         window.location.href = "/route"
     };
 
-    sendAjax(url, 'DELETE', data, successFunction);
+    sendAjax(url, 'DELETE', data, successFunction, showFail);
+}
+
+// ====================================================== STATUS =======================================================
+
+function refreshStatus(carId) {
+
+    var spinner = $("#spinner-" + carId);
+    spinner.show();
+    var reloadBtn = $("#btn-status-" + carId);
+    reloadBtn.prop('disabled', true);
+
+    var url = '/status';
+    var data = {car_id: carId};
+    var method = 'GET';
+    var successFunc = function (status) {
+        spinner.hide();
+        reloadBtn.prop('disabled', false);
+        $('#table-car-' + carId).replaceWith(status)
+    };
+    var failFunc = function (data) {
+        spinner.hide();
+        reloadBtn.prop('disabled', false);
+        showFail(data)
+    };
+
+    sendAjax(url, method, data, successFunc, failFunc)
+}
+
+function activateTool(carId, tool) {
+    var url = '/tool/activate';
+    switchTool(carId, tool, url)
+}
+
+function deactivateTool(carId, tool) {
+    var url = '/tool/deactivate';
+    switchTool(carId, tool, url)
+}
+
+function switchTool(carId, tool, url) {
+    var data = {car_id: carId, tool: tool};
+    var method = 'POST';
+    var successFunc = function () { refreshStatus(carId) };
+
+    sendAjax(url, method, data, successFunc, showFail)
 }
