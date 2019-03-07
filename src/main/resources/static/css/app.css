@@ -10,6 +10,15 @@
     background-color: #ffb300 !important;
 }
 
+.my-pagination .active .page-link {
+    background-color: #001970 !important;
+    border: none !important;
+}
+
+.my-pagination .page-link {
+    color: #001970;
+}
+
 .btn-bg-transparent {
     background: transparent;
     border: transparent;
