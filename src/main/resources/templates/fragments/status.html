@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <th scope="col">Time</th>
-            <td th:text="${#dates.format(status.time, 'HH:mm:ss')}" align="center"></td>
+            <td th:text="|${#dates.format(status.time, 'HH:mm:ss')} UTC|" align="center"></td>
         </tr>
         <tr>
             <th scope="col">Car ID</th>
