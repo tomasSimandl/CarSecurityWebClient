@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <th scope="col">Time</th>
-                <td th:text="${#dates.format(event.time*1000, 'HH:mm:ss')}"></td>
+                <td th:text="|${#dates.format(event.time*1000, 'HH:mm:ss')} UTC|"></td>
             </tr>
             <tr>
                 <th scope="col">Note</th>

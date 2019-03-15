@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <th scope="col">Time</th>
-                        <td th:text="${#dates.format(route.timeEpochSeconds*1000, 'HH:mm:ss')}"  align="center"></td>
+                        <td th:text="|${#dates.format(route.timeEpochSeconds*1000, 'HH:mm:ss')} UTC|"  align="center"></td>
                     </tr>
                     <tr>
                         <th scope="col">Length</th>
