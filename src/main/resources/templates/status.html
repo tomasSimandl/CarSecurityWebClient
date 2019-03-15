@@ -9,6 +9,10 @@
 
 <div class="container">
 
+    <div th:if="${#lists.isEmpty(cars)}" class="alert alert-secondary">
+        You do not have a car. New car can be crated on cars page.
+    </div>
+
     <!-- ERROR TOAST -->
     <div th:replace="fragments/general.html :: errorToast"></div>
 
