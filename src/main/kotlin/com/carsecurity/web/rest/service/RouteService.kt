@@ -9,6 +9,7 @@ interface RouteService {
     fun getRoutes(page: Int): Array<Route>
     fun getRoutesByCar(page: Int, carId: Long): Array<Route>
     fun getRouteMap(routeId: Long): ByteArray
+    fun getRouteGPX(routeId: Long): String
     fun countRoutes(): Long
     fun countRoutesByCar(carId: Long): Long
     fun removeRoute(routeId: Long)

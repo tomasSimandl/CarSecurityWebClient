@@ -65,6 +65,13 @@ class RouteServiceImpl(
         return entity.body ?: ByteArray(0)
     }
 
+    override fun getRouteGPX(routeId: Long): String {
+        val url = "$restServerUrl$ROUTE_MAPPING/export?route_id=$routeId"
+
+        val entity = restTemplate.getForEntity(url, String::class.java)
+        return entity.body ?: ""
+    }
+
     override fun countRoutes(): Long {
         val url = "$restServerUrl$ROUTE_COUNT_MAPPING"
 

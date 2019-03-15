@@ -71,6 +71,9 @@
         </table>
 
         <div class="my-3 justify-content-end d-flex">
+            <a class="btn bg-main text-light mr-1" th:href="@{/route/export(route_id=${route.id})}" download="track.gpx">
+                download GPX
+            </a>
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-delete">
                 Remove route
             </button>

@@ -76,8 +76,16 @@ class RouteController(
     }
 
     @ResponseBody
+    @GetMapping(value = ["route/export"], params = ["route_id"], produces = ["application/xml"])
+    fun getGPXRoute(
+            @RequestParam("route_id") routeId: Long
+    ): String {
+        return routeService.getRouteGPX(routeId)
+    }
+
+    @ResponseBody
     @DeleteMapping("route")
-    fun deleteEvent(
+    fun deleteRoute(
             @RequestParam(value = "route_id") routeId: Long
     ) {
         routeService.removeRoute(routeId)
