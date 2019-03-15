@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/general.html :: head(title='Settings')"></head>
+
+<body>
+
+<nav th:replace="fragments/general.html :: navigation"></nav>
+
+<div class="container">
+
+    <!-- ERROR TOAST -->
+    <div th:replace="fragments/general.html :: errorToast"></div>
+
+    <div class="form-signin m-auto pt-1">
+        <h1>User setting</h1>
+
+        <form onsubmit="return false;">
+            <input id="input_id" name="id" type="hidden" th:value="${user.id}">
+            <div class="form-group">
+                <label for="input_username">username:</label>
+                <input id="input_username" class="form-control" type="text" disabled th:value="${user.username}">
+            </div>
+            <div class="form-group">
+                <label for="input_email">e-mail:</label>
+                <input id="input_email" name="email" class="form-control" type="email" th:value="${user.email}">
+            </div>
+        </form>
+
+        <button class="btn bg-main text-light w-100 mb-2" onclick="updateEmail()">Update email</button>
+        <button type="button" class="btn btn-danger w-100" data-dismiss="modal" data-toggle="modal" data-target="#modal-delete">
+            Delete User
+        </button>
+    </div>
+
+    <!-- DELETE USER MODAL -->
+    <div th:replace="fragments/modal.html :: modalDelete(
+                                           'Do you really want to delete this user and every car, routes and events with it?',
+                                           ~{ :: #delete-button})">
+        <button id="delete-button" type="button" class="btn btn-danger" data-dismiss="modal"
+                th:onclick="'javascript:deleteUser(' + ${user.id} + ')'">
+            Delete User
+        </button>
+    </div>
+
+</div>
+</body>
+</html>

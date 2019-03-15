@@ -1,18 +1,21 @@
 package com.carsecurity.web.controller
 
+import com.carsecurity.web.rest.service.CarService
+import com.carsecurity.web.rest.service.LoginService
 import com.carsecurity.web.rest.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 import java.security.Principal
 import javax.servlet.http.HttpSession
 
 @Controller
-class UserController(private val userService: UserService) {
+class UserController(
+        private val loginService: LoginService,
+        private val userService: UserService,
+        private val carService: CarService
+) {
 
     private val logger = LoggerFactory.getLogger(UserController::class.java)
 
@@ -67,7 +70,7 @@ class UserController(private val userService: UserService) {
             return "register"
         }
 
-        val responseCode = userService.register(username, password)
+        val responseCode = loginService.register(username, password)
         when(responseCode) {
             201 -> return "redirect:/login?registered"
             400 -> {
@@ -81,5 +84,22 @@ class UserController(private val userService: UserService) {
         }
     }
 
+    @PutMapping("/user")
+    @ResponseBody
+    fun updateEmail(
+            @RequestParam("id") userId: Long,
+            @RequestParam("email") email: String
+    ) {
+        userService.updateUserEmail(userId, email)
+    }
 
+    @DeleteMapping("/user")
+    @ResponseBody
+    fun deleteUser(
+            @RequestParam(value = "id") userId: Long
+    ) {
+
+        carService.removeCars()
+        userService.removeUser(userId)
+    }
 }

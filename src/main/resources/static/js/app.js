@@ -168,3 +168,29 @@ function switchTool(carId, tool, url) {
 
     sendAjax(url, method, data, successFunc, showFail)
 }
+
+// ======================================================= USER ========================================================
+
+function updateEmail() {
+
+    var email = $("#input_email").val();
+    var userId = $("#input_id").val();
+
+    var url = '/user';
+    var data = {id: userId, email: email};
+    var method = 'PUT';
+    var successFunc = function () { window.location.href = '/settings'; };
+
+    sendAjax(url, method, data, successFunc, showFail)
+}
+
+function deleteUser(userId) {
+    var url = '/user';
+    var data = {id: userId};
+    var successFunc = function () {
+        sendAjax('/logout', 'POST', null, null, null);
+        window.location.href = '/login';
+    };
+
+    sendAjax(url, 'DELETE', data, successFunc, showFail);
+}

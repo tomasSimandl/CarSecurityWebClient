@@ -1,7 +1,7 @@
 package com.carsecurity.web.config
 
 import com.carsecurity.web.rest.model.Token
-import com.carsecurity.web.rest.service.UserService
+import com.carsecurity.web.rest.service.LoginService
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -29,12 +29,12 @@ class LoginRestTemplateConfig {
  * Class configures RestTemplate with authorization header for token communication.
  */
 @Configuration
-class TokenRestTemplateConfig(private val userService: UserService) {
+class TokenRestTemplateConfig(private val loginService: LoginService) {
 
     @Bean
     fun tokenRestTemplate(): RestTemplate {
         val restTemplate = RestTemplate()
-        val interceptor = HeaderRequestInterceptor(userService)
+        val interceptor = HeaderRequestInterceptor(loginService)
         restTemplate.interceptors = listOf(interceptor)
 
         return restTemplate
@@ -45,7 +45,7 @@ class TokenRestTemplateConfig(private val userService: UserService) {
      * from session.
      */
     private class HeaderRequestInterceptor(
-            private val userService: UserService
+            private val loginService: LoginService
     ) : ClientHttpRequestInterceptor {
 
         private val logger = LoggerFactory.getLogger(HeaderRequestInterceptor::class.java)
@@ -93,7 +93,7 @@ class TokenRestTemplateConfig(private val userService: UserService) {
 
             try {
                 logger.debug("Refreshing token.")
-                val newToken = userService.refresh(token.refreshToken)
+                val newToken = loginService.refresh(token.refreshToken)
                 session.setAttribute("token", newToken)
                 return newToken
 

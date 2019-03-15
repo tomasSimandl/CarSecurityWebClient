@@ -59,13 +59,17 @@ class CarServiceImpl(
 
         val httpEntity = HttpEntity(form)
 
-
         restTemplate.put(url, httpEntity)
     }
 
     override fun removeCar(carId: Long) {
         val url = "$restServerUrl$CAR_MAPPING?car_id=$carId"
 
+        restTemplate.delete(url)
+    }
+
+    override fun removeCars() {
+        val url = "$restServerUrl$CAR_MAPPING"
         restTemplate.delete(url)
     }
 }

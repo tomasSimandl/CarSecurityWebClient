@@ -1,6 +1,6 @@
 package com.carsecurity.web.config
 
-import com.carsecurity.web.rest.service.UserService
+import com.carsecurity.web.rest.service.LoginService
 import com.carsecurity.web.rest.model.Token
 import com.google.gson.JsonParser
 import org.slf4j.LoggerFactory
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession
 
 @Component
 class CustomAuthenticationProvider(
-        private val userService: UserService,
+        private val loginService: LoginService,
         private val httpSession: HttpSession
 ) : AuthenticationProvider {
 
@@ -37,7 +37,7 @@ class CustomAuthenticationProvider(
 
     private fun getToken(username: String, password: String): Token {
         try {
-            return userService.login(username, password)
+            return loginService.login(username, password)
 
         } catch (e: HttpStatusCodeException) {
             logger.debug("Can not login. Server response status code: ${e.statusCode} $")
