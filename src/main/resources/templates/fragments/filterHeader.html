@@ -11,7 +11,7 @@
                 Filter by Car
             </button>
             <div class="dropdown-menu" aria-labelledby="btn-group-drop">
-                <a class="dropdown-item text-danger" href="/event">Disable filter</a>
+                <a class="dropdown-item text-danger" th:href="@{/{baseUrl}}">Disable filter</a>
                 <a th:each="car, iStat : ${cars}" class="dropdown-item" th:href="@{/{baseUrl}?car_id={id}(id=${car.id},baseUrl=${baseUrl})}" th:text="${car.name}"></a>
             </div>
         </div>
