@@ -5,16 +5,16 @@
 <!-- CARD with event -->
 <div th:id="|table-car-${status.carId}|" th:fragment="statusFragment">
 
-    <button th:if="${status.utils['Alarm']}" class="btn btn-success border-0 text-light w-100 mb-1"
+    <button th:if="${status.tools['Alarm']}" class="btn btn-success border-0 text-light w-100 mb-1"
             th:onclick="'javascript:deactivateTool(' + ${status.carId} + ',\'alarm\')'">Turn off alarm
     </button>
-    <button th:unless="${status.utils['Alarm']}" class="btn bg-main border-0 text-light w-100 mb-1"
+    <button th:unless="${status.tools['Alarm']}" class="btn bg-main border-0 text-light w-100 mb-1"
             th:onclick="'javascript:activateTool(' + ${status.carId} + ',\'alarm\')'">Turn on alarm
     </button>
-    <button th:if="${status.utils['Tracker']}" class="btn btn-success border-0 text-light w-100 mb-1"
+    <button th:if="${status.tools['Tracker']}" class="btn btn-success border-0 text-light w-100 mb-1"
             th:onclick="'javascript:deactivateTool(' + ${status.carId} + ',\'tracker\')'">Turn off tracker
     </button>
-    <button th:unless="${status.utils['Tracker']}" class="btn bg-main border-0 text-light w-100 mb-1"
+    <button th:unless="${status.tools['Tracker']}" class="btn bg-main border-0 text-light w-100 mb-1"
             th:onclick="'javascript:activateTool(' + ${status.carId} + ',\'tracker\')'">Turn on tracker
     </button>
 
