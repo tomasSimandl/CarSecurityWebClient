@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <th scope="col">Average speed</th>
-                <td th:text="|${#numbers.formatDecimal(route.avgSpeed*3.6, 0, 1)} km/h|" align="center"></td>
+                <td th:text="|${#numbers.formatDecimal(route.avgSpeed*3.6, 1, 1)} km/h|" align="center"></td>
             </tr>
             <tr>
                 <th scope="col">Travel time</th>
