@@ -97,7 +97,7 @@ function initCarModal() {
         var button = $(event.relatedTarget);
 
         var modal = $(this);
-        modal.find('#car-icon').val(button.data('icon'));
+        modal.find('#car-note').val(button.data('note'));
         modal.find('#car-name').val(button.data('name'));
         modal.find('#car-modal-label').text(button.data('title'));
 

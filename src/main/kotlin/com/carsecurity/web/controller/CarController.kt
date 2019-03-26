@@ -27,18 +27,18 @@ class CarController(private val carService: CarService) {
             request: HttpServletRequest,
             response: HttpServletResponse,
             @RequestParam(value = "name") carName: String,
-            @RequestParam(value = "icon") carIcon: String
+            @RequestParam(value = "note") carNote: String
     ) {
-        response.writer.print(carService.createCar(carName, carIcon))
+        response.writer.print(carService.createCar(carName, carNote))
     }
 
     @PutMapping("car")
     fun updateCar(
             @RequestParam(value = "id") carId: Long,
             @RequestParam(value = "name") carName: String,
-            @RequestParam(value = "icon") carIcon: String
+            @RequestParam(value = "note") carNote: String
     ) {
-        carService.updateCar(carId, carName, carIcon)
+        carService.updateCar(carId, carName, carNote)
     }
 
     @DeleteMapping("car")

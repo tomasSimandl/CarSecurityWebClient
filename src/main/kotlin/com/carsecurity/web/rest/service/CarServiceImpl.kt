@@ -1,21 +1,11 @@
 package com.carsecurity.web.rest.service
 
 import com.carsecurity.web.rest.model.Car
-import com.carsecurity.web.rest.model.Route
-import com.carsecurity.web.rest.model.Token
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.getForEntity
-import javax.servlet.http.HttpSession
 
 
 @Service
@@ -36,12 +26,12 @@ class CarServiceImpl(
         return routeEntity.body!!
     }
 
-    override fun createCar(name: String, icon: String): String {
+    override fun createCar(name: String, note: String): String {
         val url = "$restServerUrl$CAR_MAPPING"
 
         val form = HashMap<String, String>()
         form["name"] = name
-        form["icon"] = icon
+        form["note"] = note
 
         val httpEntity = HttpEntity(form)
 
@@ -49,12 +39,12 @@ class CarServiceImpl(
         return entity.body!!
     }
 
-    override fun updateCar(id: Long, name: String, icon: String) {
+    override fun updateCar(id: Long, name: String, note: String) {
         val url = "$restServerUrl$CAR_MAPPING"
 
         val form = HashMap<String, String>()
         form["name"] = name
-        form["icon"] = icon
+        form["note"] = note
         form["id"] = id.toString()
 
         val httpEntity = HttpEntity(form)

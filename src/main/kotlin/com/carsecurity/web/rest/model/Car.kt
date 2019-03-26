@@ -6,5 +6,5 @@ data class Car(
         val routes: Long,
         val events: Long,
         val name: String,
-        val icon: String
+        val note: String
 )
