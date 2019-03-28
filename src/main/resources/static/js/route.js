@@ -1,10 +1,13 @@
-
 var positions;
 var chartLabelsArr = [];
 var chartSpeedArr = [];
 var chartAltitudeArr = [];
 
-function setPositions(pos){
+/**
+ * Method initialize data for charts and show chart for speed and for altitude.
+ * @param pos list of routes positions.
+ */
+function setPositions(pos) {
     positions = pos;
 
     for (var i = 0; i < positions.length; i++) {
@@ -17,6 +20,9 @@ function setPositions(pos){
     getChart('altitudeChart', chartLabelsArr, chartAltitudeArr, 'altitude [m]');
 }
 
+/**
+ * Function load and display interactive Bing map on page in #mapPanel.
+ */
 function getMap() {
     var map = new Microsoft.Maps.Map(document.getElementById('mapPanel'), {
         /* No need to set credentials if already passed in URL */
@@ -40,7 +46,7 @@ function getMap() {
         color: 'green',
         text: 'S'
     });
-    var pinEnd = new Microsoft.Maps.Pushpin(array[array.length-1], {
+    var pinEnd = new Microsoft.Maps.Pushpin(array[array.length - 1], {
         title: 'End',
         color: 'red',
         text: 'E'
@@ -49,12 +55,18 @@ function getMap() {
     map.entities.push(pinEnd);
 
 
-
     Microsoft.Maps.loadModule('Microsoft.Maps.WellKnownText', function () {
         document.getElementById('printoutPanel').innerHTML = Microsoft.Maps.WellKnownText.write(polyline);
     });
 }
 
+/**
+ * Method create chart according to given parameters.
+ * @param elementId is element in which will be chart created.
+ * @param labels of x axes
+ * @param data which should be displayed
+ * @param yLabel label on y axes.
+ */
 function getChart(elementId, labels, data, yLabel) {
     var ctx = document.getElementById(elementId).getContext('2d');
 
@@ -73,12 +85,13 @@ function getChart(elementId, labels, data, yLabel) {
         },
 
         options: {
-            elements: { line: { tension: 0 } }, // disables bezier curves
-            legend: { display: false },
+            elements: {line: {tension: 0}}, // disables bezier curves
+            legend: {display: false},
             scales: {
                 xAxes: [{
                     type: 'time',
-                    time: { displayFormats: { second: 'HH:mm:ss' }
+                    time: {
+                        displayFormats: {second: 'HH:mm:ss'}
                     }
                 }],
                 yAxes: [{

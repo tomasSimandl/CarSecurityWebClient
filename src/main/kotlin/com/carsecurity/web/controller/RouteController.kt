@@ -9,9 +9,17 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import javax.websocket.server.PathParam
 import kotlin.math.ceil
 
+/**
+ * This controller is used for all requests which are associated with 'route' page.
+ *
+ * @param routeService is service which is used for access routes on data server.
+ * @param positionService is service which is used for access positions on data server.
+ * @param carService is service which is used for access cars on data server.
+ * @param pageLimit is maximal number of routes in one page.
+ * @param bingMapKey is authorization key for access bing map api.
+ */
 @Controller
 class RouteController(
         private val routeService: RouteService,
@@ -25,10 +33,22 @@ class RouteController(
         private val bingMapKey: String
 ) {
 
+    /** Logger of this class. */
     private val logger = LoggerFactory.getLogger(RouteController::class.java)
 
+    /**
+     * Method load route given by path parameter and all its positions over [routeService] and [positionService].
+     * All loaded data are append to [model]. Result is rendered on 'route' page.
+     *
+     * @param id is identification number of route in database on data server.
+     * @param model is holder for page attributes.
+     * @return string "route" which is render to route page.
+     */
     @GetMapping("route/{id}")
-    fun getRouteById(@PathVariable("id") id: Long, model: Model): String {
+    fun getRouteById(
+            @PathVariable("id") id: Long,
+            model: Model
+    ): String {
 
         val route = routeService.getRoute(id)
         val positions = positionService.getPositions(id)
@@ -39,6 +59,14 @@ class RouteController(
         return "route"
     }
 
+    /**
+     * Method load routes form data server over [routeService] and all users cars over [carService]. Loaded data are
+     * append to model. Result is render on 'routes' page.
+     *
+     * @param model is holder for page attributes.
+     * @param page is requested page of events (Optional).
+     * @param carId optional parameter which specified that routes will be only of this car.
+     */
     @GetMapping("route")
     fun getRoutes(
             model: Model,
@@ -46,11 +74,11 @@ class RouteController(
             @RequestParam("car_id", required = false) carId: Long?
     ): String {
 
-        val validPage = if(page > 0) page - 1 else 0
+        val validPage = if (page > 0) page - 1 else 0
         val routes: Array<Route>
         val numberOfRoutes: Long
 
-        if (carId == null){
+        if (carId == null) {
             routes = routeService.getRoutes(validPage)
             numberOfRoutes = routeService.countRoutes()
         } else {
@@ -62,11 +90,17 @@ class RouteController(
 
         model.addAttribute("routes", routes)
         model.addAttribute("cars", cars)
-        model.addAttribute("numberOfPages", ceil(numberOfRoutes/pageLimit.toFloat()))
+        model.addAttribute("numberOfPages", ceil(numberOfRoutes / pageLimit.toFloat()))
         model.addAttribute("actualPage", validPage + 1)
         return "routes"
     }
 
+    /**
+     * Method send request to get view of maps route over [routeService] and return result.
+     *
+     * @param routeId is identification number of requested route in database on data server.
+     * @return map view of route as [ByteArray].
+     */
     @ResponseBody
     @GetMapping(value = ["route/map"], params = ["route_id"], produces = ["image/png"])
     fun getMap(
@@ -75,6 +109,12 @@ class RouteController(
         return routeService.getRouteMap(routeId)
     }
 
+    /**
+     * Method send request to get route in GPX file over [routeService] and return result.
+     *
+     * @param routeId is identification number of requested route in database on data server.
+     * @return string in GPX format with requested route or empty string on error.
+     */
     @ResponseBody
     @GetMapping(value = ["route/export"], params = ["route_id"], produces = ["application/xml"])
     fun getGPXRoute(
@@ -83,6 +123,11 @@ class RouteController(
         return routeService.getRouteGPX(routeId)
     }
 
+    /**
+     * Method send request to data server to delete route specified by [routeId].
+     *
+     * @param routeId is identification of route which will be deleted on data server.
+     */
     @ResponseBody
     @DeleteMapping("route")
     fun deleteRoute(

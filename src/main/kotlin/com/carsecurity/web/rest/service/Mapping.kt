@@ -1,5 +1,6 @@
 package com.carsecurity.web.rest.service
 
+/** This object contains all used endpoints on authorization server and on data server. */
 
 const val TOKEN_MAPPING = "/oauth/token"
 const val USER_MAPPING = "/user"

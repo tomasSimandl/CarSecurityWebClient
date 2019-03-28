@@ -6,20 +6,31 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 
-
+/**
+ * Class is used for configure security of web application.
+ *
+ * @param authProvider is custom provider used for process login requests.
+ */
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
         private val authProvider: CustomAuthenticationProvider
 ) : WebSecurityConfigurerAdapter() {
 
-
-    override fun configure( auth: AuthenticationManagerBuilder) {
-
+    /**
+     * Method sets custom authorization logic with [CustomAuthenticationProvider].
+     */
+    override fun configure(auth: AuthenticationManagerBuilder) {
         auth.authenticationProvider(authProvider)
     }
 
 
+    /**
+     * Method sets authorization level to all request. Requests to: /register, /login, /css, /js endpoints is available
+     * without authorization. To any other endpoints user must be logged in.
+     *
+     * @param http HttpSecurity object on which is set authentication privileges.
+     */
     override fun configure(http: HttpSecurity) {
         http
                 .authorizeRequests()
@@ -36,6 +47,5 @@ class SecurityConfig(
                 .defaultSuccessUrl("/")
                 .and()
                 .csrf().disable()
-
     }
 }

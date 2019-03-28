@@ -7,7 +7,13 @@ import org.springframework.http.HttpEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
-
+/**
+ * Implementation of service which is used for sending requests to data server.
+ *
+ * @param restServerUrl is url address of data server
+ * @param restTemplate is template which can be used for sending authorized requests to data server.
+ * @param pageLimit is maximal limit of events on one page.
+ */
 @Service
 class EventServiceImpl(
 
@@ -21,6 +27,13 @@ class EventServiceImpl(
         private val restTemplate: RestTemplate
 ) : EventService {
 
+    /**
+     * Method send request to data server to get users events from [page] to [pageLimit].
+     * Result is returned as an array of events.
+     *
+     * @param page number of requested page.
+     * @return array of founded events.
+     */
     override fun getEvents(page: Int): Array<Event> {
 
         val url = "$restServerUrl$EVENT_MAPPING?page=$page&limit=$pageLimit"
@@ -29,6 +42,13 @@ class EventServiceImpl(
         return eventEntity.body!!
     }
 
+    /**
+     * Method send request to data server to get events from [page] to [pageLimit] which was created by [carId].
+     *
+     * @param page number of requested page.
+     * @param carId identification number of event in database on data server.
+     * @return array of found events.
+     */
     override fun getEventsByCar(page: Int, carId: Long): Array<Event> {
         val url = "$restServerUrl$EVENT_MAPPING?page=$page&limit=$pageLimit&car_id=$carId"
 
@@ -36,6 +56,12 @@ class EventServiceImpl(
         return eventEntity.body!!
     }
 
+    /**
+     * Method send request to data server to update events note.
+     *
+     * @param id is identification number of event in database on data server.
+     * @param note is new note about event.
+     */
     override fun updateEvent(id: Long, note: String) {
         val url = "$restServerUrl$EVENT_MAPPING"
 
@@ -47,6 +73,11 @@ class EventServiceImpl(
         restTemplate.put(url, httpEntity)
     }
 
+    /**
+     * Method send request do data server to remove event specified by [eventId]
+     *
+     * @param eventId is identification of event which will be deleted from database on data server.
+     */
     override fun removeEvent(eventId: Long) {
         val url = "$restServerUrl$EVENT_MAPPING?event_id=$eventId"
         restTemplate.delete(url)
