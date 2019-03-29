@@ -1,6 +1,7 @@
-package com.carsecurity.web.rest.service
+package com.carsecurity.web.rest.service.Impl
 
 import com.carsecurity.web.rest.model.Status
+import com.carsecurity.web.rest.service.StatusService
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service

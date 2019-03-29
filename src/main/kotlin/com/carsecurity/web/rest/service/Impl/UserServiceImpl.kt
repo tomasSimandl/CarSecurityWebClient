@@ -1,6 +1,7 @@
-package com.carsecurity.web.rest.service
+package com.carsecurity.web.rest.service.Impl
 
 import com.carsecurity.web.rest.model.User
+import com.carsecurity.web.rest.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value

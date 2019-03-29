@@ -1,4 +1,4 @@
-package com.carsecurity.web.rest.service
+package com.carsecurity.web.rest.service.Impl
 
 /** This object contains all used endpoints on authorization server and on data server. */
 

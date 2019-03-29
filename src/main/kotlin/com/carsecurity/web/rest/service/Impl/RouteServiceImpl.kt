@@ -1,7 +1,8 @@
-package com.carsecurity.web.rest.service
+package com.carsecurity.web.rest.service.Impl
 
 import com.carsecurity.web.rest.model.Count
 import com.carsecurity.web.rest.model.Route
+import com.carsecurity.web.rest.service.RouteService
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
