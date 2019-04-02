@@ -81,7 +81,7 @@
     </div>
 
     <!-- DELETE ROUTE MODAL -->
-    <div th:replace="fragments/modal.html :: modalDelete('Do you really want to delete this route?',~{ :: #delete-button})">
+    <div th:replace="fragments/modal.html :: modalDelete('Delete route', 'Do you really want to delete this route?',~{ :: #delete-button})">
         <button id="delete-button" type="button" class="btn btn-danger" data-dismiss="modal"
                 th:onclick="'javascript:deleteRoute(' + ${route.id} + ')'">
             Delete

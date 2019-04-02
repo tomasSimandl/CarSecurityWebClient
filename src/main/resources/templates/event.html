@@ -60,7 +60,7 @@
 <div ></div>
 
 <!-- DELETE EVENT MODAL -->
-<div th:replace="fragments/modal.html :: modalDelete('Do you really want to delete this event?',~{ :: #delete-button})">
+<div th:replace="fragments/modal.html :: modalDelete('Delete event','Do you really want to delete this event?',~{ :: #delete-button})">
     <button id="delete-button" type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteEvent()">Delete</button>
 </div>
 

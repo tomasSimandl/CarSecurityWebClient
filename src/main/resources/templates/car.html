@@ -108,6 +108,7 @@
 
 <!-- DELETE CAR MODAL -->
 <div th:replace="fragments/modal.html :: modalDelete(
+                                           'Delete car',
                                            'Do you really want to delete this car and every routes and events with it?',
                                            ~{ :: #delete-button})">
     <button id="delete-button" type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteCar()">

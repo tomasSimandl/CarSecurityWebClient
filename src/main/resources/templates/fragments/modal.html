@@ -4,11 +4,11 @@
 <body>
 
 
-<div th:fragment="modalDelete(message, deleteButton)" id="modal-delete" class="modal" tabindex="-1" role="dialog">
+<div th:fragment="modalDelete(title, message, deleteButton)" id="modal-delete" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete car</h5>
+                <h5 class="modal-title" th:text="${title}"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
