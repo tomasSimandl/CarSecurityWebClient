@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="fragments/general.html :: head(title='Events')"></head>
+<head th:replace="fragments/general.html :: head(title='Events')"></head>
 
 <body onload="initEventModal()">
 
@@ -23,12 +23,12 @@
 
     <div th:if="${not #lists.isEmpty(events)}" class="row justify-content-center mb-3">
         <button id="btn-load-next" type="button" title="load next data" class="btn btn-lg bg-main text-light"
-                data-page="0"  th:dataUrl="${loadNextUrl}" th:onclick="javascript:loadNextPage(this.getAttribute('dataUrl'));">Load next</button>
+                data-page="0"  th:data-url="${loadNextUrl}" th:onclick="javascript:loadNextPage(this.getAttribute('data-url'));">Load next</button>
     </div>
 </div>
 
 <!-- Update modal container -->
-<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

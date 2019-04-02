@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="fragments/general.html :: head(title='Route', scripts=~{ :: .scripts})"> </head>
+<head th:replace="fragments/general.html :: head(title='Route', scripts=~{ :: .script})">
+
     <script class="script" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script class="script" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-    <script class="script" type="text/javascript" th:src="@{/js/route.js}"></script>
+    <script class="script" th:src="@{/js/route.js}"></script>
 </head>
 
 <body>
@@ -28,8 +29,7 @@
 
             <script  th:inline="javascript">/*<![CDATA[*/setPositions([[${positions}]]);/*]]>*/</script>
             <!-- Reference to the Bing Maps SDK -->
-            <script type='text/javascript'
-                    th:src="@{https://www.bing.com/api/maps/mapcontrol(callback='getMap', key=${bingKey})}"
+            <script th:src="@{https://www.bing.com/api/maps/mapcontrol(callback='getMap', key=${bingKey})}"
                     async defer></script>
         </div>
 
@@ -38,34 +38,34 @@
             <tbody>
             <tr>
                 <th scope="col">car</th>
-                <td th:text="${route.carName}" align="center"></td>
+                <td th:text="${route.carName}"></td>
             </tr>
             <tr>
                 <th scope="col">Date</th>
-                <td th:text="${#dates.format(route.timeEpochSeconds*1000, 'dd.MM.yyyy')}"  align="center"></td>
+                <td th:text="${#dates.format(route.timeEpochSeconds*1000, 'dd.MM.yyyy')}" ></td>
             </tr>
             <tr>
                 <th scope="col">Time</th>
-                <td th:text="|${#dates.format(route.timeEpochSeconds*1000, 'HH:mm:ss')} UTC|"  align="center"></td>
+                <td th:text="|${#dates.format(route.timeEpochSeconds*1000, 'HH:mm:ss')} UTC|" ></td>
             </tr>
             <tr>
                 <th scope="col">Length</th>
-                <td th:text="|${#numbers.formatDecimal(route.length/1000,1,2)} km|" align="center"></td>
+                <td th:text="|${#numbers.formatDecimal(route.length/1000,1,2)} km|"></td>
             </tr>
             <tr>
                 <th scope="col">Average speed</th>
-                <td th:text="|${#numbers.formatDecimal(route.avgSpeed*3.6, 1, 1)} km/h|" align="center"></td>
+                <td th:text="|${#numbers.formatDecimal(route.avgSpeed*3.6, 1, 1)} km/h|"></td>
             </tr>
             <tr>
                 <th scope="col">Travel time</th>
                 <td th:with="hours=${#numbers.formatInteger(route.secondsOfTravel/3600,1)},
                                     minutes=${#numbers.formatInteger((route.secondsOfTravel/60)%60,2)},
                                     seconds=${#numbers.formatInteger(route.secondsOfTravel%60,2)}"
-                    th:text="|${hours}:${minutes}:${seconds}|"  align="center"></td>
+                    th:text="|${hours}:${minutes}:${seconds}|" ></td>
             </tr>
             <tr>
                 <th scope="col">Note</th>
-                <td th:text="${route.note}" align="center"></td>
+                <td th:text="${route.note}"></td>
             </tr>
             </tbody>
         </table>

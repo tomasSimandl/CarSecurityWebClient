@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="fragments/general.html :: head(title='Cars')"></head>
+<head th:replace="fragments/general.html :: head(title='Cars')"></head>
 
 <body onload="initCarModal()">
 
@@ -49,19 +49,19 @@
                     <tbody>
                     <tr>
                         <th scope="col">ID</th>
-                        <td th:text="${car.id}" align="center"></td>
+                        <td th:text="${car.id}"></td>
                     </tr>
                     <tr>
                         <th scope="col"># of routes</th>
-                        <td th:text="${car.routes}" align="center"></td>
+                        <td th:text="${car.routes}"></td>
                     </tr>
                     <tr>
                         <th scope="col"># of events</th>
-                        <td th:text="${car.events}" align="center"></td>
+                        <td th:text="${car.events}"></td>
                     </tr>
                     <tr>
                         <th scope="col">Note</th>
-                        <td th:text="${car.note}" align="center"></td>
+                        <td th:text="${car.note}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -71,7 +71,7 @@
 </div>
 
 <!-- Modal container -->
-<div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
+<div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

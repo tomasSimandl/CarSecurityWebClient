@@ -43,3 +43,7 @@
 body {
     background-color: #eeeeee;
 }
+
+td {
+    text-align: center;
+}
