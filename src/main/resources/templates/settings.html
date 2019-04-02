@@ -38,6 +38,7 @@
 
     <!-- DELETE USER MODAL -->
     <div th:replace="fragments/modal.html :: modalDelete(
+                                           'Delete user account',
                                            'Do you really want to delete this user and every car, routes and events with it?',
                                            ~{ :: #delete-button})">
         <button id="delete-button" type="button" class="btn btn-danger" data-dismiss="modal"
