@@ -97,7 +97,7 @@ class UserController(
         when (responseCode) {
             201 -> return "redirect:/login?registered"
             400 -> {
-                model.addAttribute("error", "Invalid input data")
+                model.addAttribute("error", "Invalid input data or user already exists.")
                 return "register"
             }
             else -> {

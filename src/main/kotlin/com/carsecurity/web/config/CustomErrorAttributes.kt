@@ -47,7 +47,7 @@ class CustomErrorAttributes : DefaultErrorAttributes() {
                 statusCode = HttpServletResponse.SC_UNAUTHORIZED
                 message = "Not authorized for this operation."
 
-            } else if (ex.statusCode == HttpStatus.REQUEST_TIMEOUT) {
+            } else if (ex.statusCode == HttpStatus.REQUEST_TIMEOUT || ex.statusCode == HttpStatus.SERVICE_UNAVAILABLE) {
                 statusCode = HttpServletResponse.SC_REQUEST_TIMEOUT
                 message = "Device is unreachable. Request timeout."
             } else {
