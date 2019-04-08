@@ -124,6 +124,21 @@ class RouteController(
     }
 
     /**
+     * Method send request to data server over [routeService] to update routes note in database.
+     *
+     * @param routeId identification number of route in database on data server which will be updated.
+     * @param note is new note which will be set to route.
+     */
+    @ResponseBody
+    @PutMapping("route")
+    fun updateRoute(
+            @RequestParam(value = "id") routeId: Long,
+            @RequestParam(value = "note") note: String
+    ) {
+        routeService.updateRoute(routeId, note)
+    }
+
+    /**
      * Method send request to data server to delete route specified by [routeId].
      *
      * @param routeId is identification of route which will be deleted on data server.

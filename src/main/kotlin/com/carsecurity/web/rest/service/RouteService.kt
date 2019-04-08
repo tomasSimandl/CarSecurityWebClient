@@ -62,6 +62,14 @@ interface RouteService {
     fun countRoutesByCar(carId: Long): Long
 
     /**
+     * Method send request to data server to update routes note.
+     *
+     * @param id is identification number of route in database on data server.
+     * @param note is new note about route.
+     */
+    fun updateRoute(id: Long, note: String)
+
+    /**
      * Method send request to delete route in database with id [routeId].
      *
      * @param routeId is identification of route in database on data server.

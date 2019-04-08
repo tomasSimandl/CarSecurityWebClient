@@ -128,6 +128,23 @@ class RouteServiceImpl(
     }
 
     /**
+     * Method send request to data server to update routes note.
+     *
+     * @param id is identification number of route in database on data server.
+     * @param note is new note about route.
+     */
+    override fun updateRoute(id: Long, note: String) {
+        val url = "$restServerUrl$ROUTE_MAPPING"
+
+        val form = HashMap<String, String>()
+        form["id"] = id.toString()
+        form["note"] = note
+
+        val httpEntity = HttpEntity(form)
+        restTemplate.put(url, httpEntity)
+    }
+
+    /**
      * Method send request to delete route in database with id [routeId].
      *
      * @param routeId is identification of route in database on data server.

@@ -163,6 +163,19 @@ function deleteRoute(routeId) {
     sendAjax(url, 'DELETE', data, successFunction, showFail);
 }
 
+/**
+ * Send request to update route according to data in #route-modal-form
+ */
+function submitFormRoute() {
+    var url = '/route';
+    var formData = $('#route-modal-form').serializeArray();
+    var successFunc = function () {
+        location.reload();
+    };
+
+    sendAjax(url, 'PUT', formData, successFunc, showFail)
+}
+
 // ====================================================== STATUS =======================================================
 
 /**

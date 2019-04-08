@@ -5,10 +5,7 @@ import com.carsecurity.web.rest.service.EventService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 
 /**
  * This controller is used for all requests which are associated with 'event' page.
@@ -85,6 +82,7 @@ class EventController(
      * @param eventId identification number of event in database on data server which will be updated.
      * @param note is new note which will be set to event.
      */
+    @ResponseBody
     @PutMapping("event")
     fun updateEvent(
             @RequestParam(value = "id") eventId: Long,

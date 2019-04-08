@@ -74,9 +74,40 @@
             <a class="btn bg-main text-light mr-1" th:href="@{/route/export(route_id=${route.id})}" th:download="'track_' + ${route.id} + '.gpx'">
                 download GPX
             </a>
+            <button class="btn bg-main text-light mr-1" type="button" data-toggle="modal" data-target="#modal-update">
+                Update note
+            </button>
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-delete">
                 Remove route
             </button>
+        </div>
+    </div>
+
+    <!-- Update modal container -->
+    <div class="modal fade" id="modal-update" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit route</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="route-modal-form">
+                        <input name="id" type="hidden" id="route-id" th:value="${route.id}">
+                        <div class="form-group">
+                            <label for="route-note" class="col-form-label">Note:</label>
+                            <input name="note" type="text" class="form-control" id="route-note" th:value="${route.note}">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            onclick="submitFormRoute()">Save changes</button>
+                </div>
+            </div>
         </div>
     </div>
 
