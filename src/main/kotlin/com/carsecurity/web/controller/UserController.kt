@@ -3,10 +3,14 @@ package com.carsecurity.web.controller
 import com.carsecurity.web.rest.service.CarService
 import com.carsecurity.web.rest.service.LoginService
 import com.carsecurity.web.rest.service.UserService
+import com.google.gson.JsonObject
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.client.HttpClientErrorException
+import java.nio.charset.Charset
 import java.security.Principal
 
 /**
@@ -113,13 +117,67 @@ class UserController(
      * @param userId is identification number of user in database on authorization server.
      * @param email is new email which will be store to user on authorization server.
      */
-    @PutMapping("/user")
+    @PutMapping("/user", params = ["id", "email"])
     @ResponseBody
     fun updateEmail(
             @RequestParam("id") userId: Long,
             @RequestParam("email") email: String
     ) {
         userService.updateUserEmail(userId, email)
+    }
+
+    /**
+     * Method sends request to authorization server over [userService] to update users password.
+     *
+     * @param userId is identification number of user in database on authorization server.
+     * @param newPassword new requested password
+     * @param newPasswordConfirm confirmation of new password
+     * @param oldPassword old users password.
+     */
+    @PutMapping("/user", params = ["id", "old_password", "new_password", "new_password_confirm"])
+    @ResponseBody
+    fun updatePassword(
+            @RequestParam("id") userId: Long,
+            @RequestParam("old_password") oldPassword: String,
+            @RequestParam("new_password") newPassword: String,
+            @RequestParam("new_password_confirm") newPasswordConfirm: String
+    ) {
+
+        if (oldPassword.isBlank() || newPassword.isBlank() || newPasswordConfirm.isBlank()) {
+            throwHttpClientErrorException(HttpStatus.BAD_REQUEST, "Please fill all inputs!")
+        }
+
+        if (newPassword != newPasswordConfirm) {
+            throwHttpClientErrorException(HttpStatus.BAD_REQUEST, "New passwords do not match!")
+        }
+
+        if (newPassword.length < 8) {
+            throwHttpClientErrorException(HttpStatus.BAD_REQUEST, "Password is too short. Minimum is 8 characters.")
+        }
+
+        try {
+            userService.updateUserPassword(userId, oldPassword, newPassword)
+        } catch (e: HttpClientErrorException) {
+            if (e.statusCode.value() == 401) {
+                throwHttpClientErrorException(HttpStatus.BAD_REQUEST, "Invalid old password!")
+            } else {
+                throw e
+            }
+        }
+    }
+
+    /**
+     * Method throw [HttpClientErrorException] with given status and message.
+     *
+     * @param status is http status used in [HttpClientErrorException]
+     * @param message message which is added to json as attribute error and append to exceptions body.
+     */
+    private fun throwHttpClientErrorException(status: HttpStatus, message: String) {
+        val json = JsonObject()
+        json.addProperty("error", message)
+        throw HttpClientErrorException(status, "error",
+                json.toString().toByteArray(Charset.defaultCharset()),
+                Charset.defaultCharset())
     }
 
     /**

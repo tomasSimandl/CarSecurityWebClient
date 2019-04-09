@@ -24,6 +24,15 @@ interface UserService {
     fun updateUserEmail(userId: Long, email: String)
 
     /**
+     * Method send request to authorization server to update users password.
+     *
+     * @param userId is identification of user in database on authorization server which password will be changed.
+     * @param newPassword is new requested users password.
+     * @param oldPassword is old users password.
+     */
+    fun updateUserPassword(userId: Long, oldPassword: String, newPassword: String)
+
+    /**
      * Method send request to data server to delete user from database on authorization server.
      *
      * @param userId is identification number of user on authorization server which will be deleted.

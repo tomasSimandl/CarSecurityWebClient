@@ -269,6 +269,22 @@ function updateEmail() {
 }
 
 /**
+ * Method send request to update users password. All data is taken from #password-modal-form.
+ * On fail toast with error is displayed.
+ */
+function updatePassword() {
+    var url = '/user';
+    var formData = $('#password-modal-form').serializeArray();
+    var successFunc = function () {
+
+        window.location.href = '/settings';
+    };
+
+    document.getElementById("password-modal-form").reset();
+    sendAjax(url, 'PUT', formData, successFunc, showFail)
+}
+
+/**
  * Function sends request to delete input user on success logout request is send. On fail toast with error is
  * displayed.
  * @param userId identification of user which should be deleted.

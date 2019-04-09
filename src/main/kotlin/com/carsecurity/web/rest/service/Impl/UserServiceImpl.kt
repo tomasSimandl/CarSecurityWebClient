@@ -56,6 +56,20 @@ class UserServiceImpl(
     }
 
     /**
+     * Method send request to authorization server to update users password.
+     *
+     * @param userId is identification of user in database on authorization server which password will be changed.
+     * @param newPassword is new requested users password.
+     * @param oldPassword is old users password.
+     */
+    override fun updateUserPassword(userId: Long, oldPassword: String, newPassword: String) {
+        val url = "$authorizationServerUrl$USER_MAPPING?id=$userId&old_password=$oldPassword&new_password=$newPassword"
+        logger.debug("Sending change password request for user id: $userId")
+
+        restTemplate.put(url, null)
+    }
+
+    /**
      * Method send request to data server to delete user from database on authorization server.
      *
      * @param userId is identification number of user on authorization server which will be deleted.
