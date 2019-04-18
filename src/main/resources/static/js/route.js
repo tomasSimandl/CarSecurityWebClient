@@ -30,14 +30,13 @@ function getMap() {
         zoom: 16,
         mapTypeId: Microsoft.Maps.MapTypeId.road
     });
+
     var array = [];
-    var i;
-    for (i = 0; i < positions.length; i++) {
-        array.push(new Microsoft.Maps.Location(positions[i].latitude, positions[i].longitude));
-    }
+    positions.forEach(function(position){
+        array.push(new Microsoft.Maps.Location(position.latitude, position.longitude));
+    });
 
-
-    var polyline = new Microsoft.Maps.Polyline(positions, {strokeColor: 'Blue', strokeThickness: 2});
+    var polyline = new Microsoft.Maps.Polyline(array, {strokeColor: 'Blue', strokeThickness: 2});
     map.entities.push(polyline);
 
 
