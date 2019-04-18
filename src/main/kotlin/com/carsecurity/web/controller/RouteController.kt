@@ -90,7 +90,7 @@ class RouteController(
 
         model.addAttribute("routes", routes)
         model.addAttribute("cars", cars)
-        model.addAttribute("numberOfPages", ceil(numberOfRoutes / pageLimit.toFloat()))
+        model.addAttribute("numberOfPages", ceil(numberOfRoutes / pageLimit.toFloat()).toInt())
         model.addAttribute("actualPage", validPage + 1)
         return "routes"
     }
