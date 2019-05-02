@@ -94,12 +94,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="route-modal-form">
+                    <form id="route-modal-form"  onsubmit="submitFormRoute();return false">
                         <input name="id" type="hidden" id="route-id" th:value="${route.id}">
                         <div class="form-group">
                             <label for="route-note" class="col-form-label">Note:</label>
                             <input name="note" type="text" class="form-control" id="route-note" th:value="${route.note}">
                         </div>
+                        <input type="submit" hidden>
                     </form>
                 </div>
                 <div class="modal-footer">

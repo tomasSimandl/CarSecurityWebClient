@@ -38,12 +38,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="event-modal-form">
+                <form id="event-modal-form" onsubmit="submitFormEvent();return false;">
                     <input name="id" type="hidden" id="event-id">
                     <div class="form-group">
                         <label for="event-note" class="col-form-label">Note:</label>
                         <input name="note" type="text" class="form-control" id="event-note">
                     </div>
+                    <input type="submit" hidden>
                 </form>
             </div>
             <div class="modal-footer">

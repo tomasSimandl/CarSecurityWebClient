@@ -15,7 +15,7 @@
     <div class="form-signin m-auto pt-1">
         <h1>User setting</h1>
 
-        <form onsubmit="return false;">
+        <form onsubmit="updateEmail();return false;">
             <input id="input_id" name="id" type="hidden" th:value="${user.id}">
             <div class="form-group">
                 <label for="input_username">username:</label>
@@ -28,6 +28,7 @@
                     By filling e-mail you agree to receive an alarm and battery status emails.
                 </small>
             </div>
+            <input type="submit" hidden>
         </form>
 
         <button class="btn bg-main text-light w-100 mb-2" onclick="updateEmail()">Update email</button>
@@ -67,7 +68,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="password-modal-form">
+                    <form id="password-modal-form" onsubmit="updatePassword();return false;">
                         <input name="id" type="hidden" id="user-id" th:value="${user.id}">
                         <div class="form-group">
                             <label for="old-password" class="col-form-label">Old password:</label>
@@ -82,6 +83,7 @@
                             <label for="new-password-confirm" class="col-form-label">New password confirmation:</label>
                             <input name="new_password_confirm" type="password" class="form-control" id="new-password-confirm" required>
                         </div>
+                        <input type="submit" hidden>
                     </form>
                 </div>
                 <div class="modal-footer">
